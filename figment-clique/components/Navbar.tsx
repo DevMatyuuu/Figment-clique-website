@@ -6,10 +6,13 @@ import { Divide as Hamburger } from 'hamburger-react'
 import { menu } from '@/constants/menu';
 import Link from 'next/link';
 import Image from 'next/image';
+import useNavbarStore from '@/store/NavbarStore';
+import useCartStore from '@/store/CartStore';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const [active, setActive] = useState(1);
+  const [active, setActive] = useNavbarStore((state) => [state.active, state.setActive])
+  const setCartOpen = useCartStore((state) => state.setCartOpen);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -31,10 +34,6 @@ const Navbar = () => {
     ? 'h-20 transition-all duration-300 ease-in-out'
     : 'h-32 transition-all duration-300 ease-in-out';
 
-  const handleActive = (id: number) => {
-    setActive(id);
-  }
-
   return (
     <div className={`flex flex-col gap-4 fixed z-50 w-full bg-black text-white`}>
       <div className={`${navbarClassName} container mx-auto lg:max-w-[1070px] px-10 flex lg:justify-between justify-between items-center transition-all`}>
@@ -55,7 +54,7 @@ const Navbar = () => {
               <path d="M16.4883 16.491L21.25 21.25" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
           </div>
-          <div className='size-6 lg:size-6 cursor-pointer'>
+          <div onClick={setCartOpen} className='size-6 lg:size-6 cursor-pointer'>
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M4.48438 6.21877V18.3594C4.48438 19.126 4.78893 19.8613 5.33103 20.4034C5.87312 20.9455 6.60836 21.25 7.375 21.25H16.625C17.3916 21.25 18.1269 20.9455 18.669 20.4034C19.2111 19.8613 19.5156 19.126 19.5156 18.3594V6.21877" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M19.5156 6.21877L16.3822 3.08533C16.2741 2.97817 16.146 2.89339 16.0051 2.83585C15.8643 2.77831 15.7134 2.74914 15.5612 2.75002H8.43875C8.28658 2.74914 8.13574 2.77831 7.99486 2.83585C7.85399 2.89339 7.72586 2.97817 7.61782 3.08533L4.48438 6.21877H19.5156Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -66,7 +65,7 @@ const Navbar = () => {
       </div>
       <div className='hidden lg:flex gap-14 justify-center items-center pb-4'>
         {menu.map((link) => (
-          <Link href={link.route} key={link.id} className='cursor-pointer' onClick={() => handleActive(link.id)}>
+          <Link href={link.route} key={link.id} className='cursor-pointer' onClick={() => setActive(link.id)}>
             <span className={`${active === link.id ? 'text-white underline underline-offset-8' : 'text-white/70 hover:text-white duration-200'}`}>{link.title}</span>
           </Link>
         ))}

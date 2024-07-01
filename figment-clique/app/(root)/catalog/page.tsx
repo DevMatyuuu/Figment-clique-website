@@ -5,6 +5,9 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Figment Clique | Catalog",
   description: "Figment Clique is a Clothing Brand based in the philippines",
+  openGraph: {
+    title: 'Figment Clique | Catalog',
+  },
 };
 
 export default async function Catalog() {
