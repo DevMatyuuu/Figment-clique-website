@@ -1,12 +1,14 @@
 import FeaturedProducts from "@/components/FeaturedProducts";
 import Hero from "@/components/Hero";
-import Image from "next/image";
+import { getFeatured } from "./data";
 
-export default function Home() {
+export default async function Home() {
+  const featuredList = await getFeatured()
+
   return (
     <>
       <Hero />
-      <FeaturedProducts />
+      <FeaturedProducts featuredList={featuredList} />
     </>
   );
 }
