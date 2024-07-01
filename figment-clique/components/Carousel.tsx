@@ -31,10 +31,10 @@ const Carousel = () => {
           loop={true}
           className='flex pb-10 bg-black text-white/80 h-auto text-sm'>
               <SwiperSlide className='bg-black'>
-                <Image src={image1} alt='logo' className='mx-auto h-full w-full brightness-90' loading='lazy'/>
+                <Image src={image1} alt='logo' className='mx-auto h-full pb-9 w-full brightness-90' loading='lazy'/>
               </SwiperSlide>
               <SwiperSlide className='bg-black'>
-                <Image src={image2} alt='logo' className='mx-auto h-full w-full brightness-90' loading='lazy'/>
+                <Image src={image2} alt='logo' className='mx-auto h-full pb-9 w-full brightness-90' loading='lazy'/>
               </SwiperSlide>
         </Swiper>
         <div className='flex relative mx-auto w-[120px]'>
