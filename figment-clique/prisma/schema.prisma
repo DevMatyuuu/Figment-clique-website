@@ -1,5 +1,3 @@
-
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,5 +13,5 @@ model catalog {
   price    String
   image    String
   image2   String
-  featured Boolean @default(false) 
+  featured Boolean   @default(false) 
 }

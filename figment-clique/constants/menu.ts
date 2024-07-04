@@ -13,31 +13,12 @@ export const menu = [
     },
     {
         id: 3,
+        title: 'Size Chart',
+        route: '/size-chart'
+    },
+    {
+        id: 4,
         title: 'About',
         route: '/about'
-    },
-]
-
-export const sampleProduct = [
-    {
-        id: 1,
-        title: 'Dosmil Avis Mesh Tee (Black)',
-        price: '₱1,100 PHP',
-        image: crest,
-        image2: crestHovered,
-    },
-    {
-        id: 2,
-        title: 'Dosmil Avis Mesh Tee (Black)',
-        price: '₱1,100 PHP',
-        image: crest,
-        image2: crestHovered
-    },
-    {
-        id: 3,
-        title: 'Dosmil Avis Mesh Tee (Black)',
-        price: '₱1,100 PHP',
-        image: crest,
-        image2: crestHovered
     },
 ]

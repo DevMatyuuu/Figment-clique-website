@@ -39,7 +39,7 @@ const FeaturedProducts = () => {
   if (!featuredData || featuredData.length === 0) return <p>No catalog data available</p>;
 
   return (
-    <div className="w-full bg-white pt-10 h-auto">
+    <div className="w-full bg-white pt-10 h-auto z-50">
       <div className="text-black flex flex-col container mx-auto max-w-[1070px] px-5">
         <h1 className="lg:text-3xl text-xl">Featured Products</h1>
         <div className='grid grid-cols-2 lg:gap-10 gap-5 lg:py-10 py-10'>

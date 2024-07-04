@@ -31,15 +31,15 @@ const Carousel = () => {
           loop={true}
           className='flex pb-10 bg-black text-white/80 h-auto text-sm'>
               <SwiperSlide className='bg-black'>
-                <Image src={image1} alt='logo' className='mx-auto h-full pb-9 w-full brightness-90' loading='lazy'/>
+                <Image src={image1} alt='logo' className='mx-auto h-full pb-9 w-full brightness-90'/>
               </SwiperSlide>
               <SwiperSlide className='bg-black'>
-                <Image src={image2} alt='logo' className='mx-auto h-full pb-9 w-full brightness-90' loading='lazy'/>
+                <Image src={image2} alt='logo' className='mx-auto h-full pb-9 w-full brightness-90'/>
               </SwiperSlide>
         </Swiper>
         <div className='flex relative mx-auto w-[120px]'>
-          <button className='absolute bottom-[8px] z-40 text-white/60 hover:text-white duration-300' onClick={() => swiper?.slidePrev()}><MdKeyboardArrowLeft className='size-5' /></button>
-          <button className='absolute bottom-[8px] right-0 text-white/60 z-40 hover:text-white duration-300' onClick={() => swiper?.slideNext()}><MdKeyboardArrowRight className='size-5' /></button>
+          <button className='absolute bottom-[8px] z-10 text-white/60 hover:text-white duration-300' onClick={() => swiper?.slidePrev()}><MdKeyboardArrowLeft className='size-5' /></button>
+          <button className='absolute bottom-[8px] right-0 text-white/60 z-10 hover:text-white duration-300' onClick={() => swiper?.slideNext()}><MdKeyboardArrowRight className='size-5' /></button>
         </div>
       </div>
   )
