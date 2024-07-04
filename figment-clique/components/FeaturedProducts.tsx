@@ -1,17 +1,49 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image';
 
-const FeaturedProducts = ({featuredList}: any) => { 
-  const [hoveredId, setHoveredId] = useState<null | number>(null);
+type featuredProps = {
+  id: string,
+  title: string,
+  image: string,
+  image2: string,
+  price: string,
+  featured: boolean,
+}
+
+const FeaturedProducts = () => { 
+  const [hoveredId, setHoveredId] = useState<null | string>(null);
+  const [featuredData, setFeaturedData] = useState<Array<featuredProps>>([]);
+  const [isLoading, setLoading] = useState(true);
+
+  useEffect(() => {
+    fetch('/api/catalog')
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
+      .then((data) => {
+        setFeaturedData(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error('Error fetching catalog data', error);
+        setLoading(false);
+      });
+  }, []);
+
+  if (isLoading) return <p>Loading...</p>;
+  if (!featuredData || featuredData.length === 0) return <p>No catalog data available</p>;
 
   return (
     <div className="w-full bg-white pt-10 h-auto">
       <div className="text-black flex flex-col container mx-auto max-w-[1070px] px-5">
         <h1 className="lg:text-3xl text-xl">Featured Products</h1>
         <div className='grid grid-cols-2 lg:gap-10 gap-5 lg:py-10 py-10'>
-          {featuredList.map((featured: any) => (
+          {featuredData.map((featured) => (
             <>
             <div className='lg:hidden h-max w-full group hover:shadow-2xl lg:rounded-2xl rounded-lg cursor-pointer duration-400 transition-all'>
               <div className='h-full w-full rounded-t-lg overflow-hidden duration-500'>
@@ -23,9 +55,9 @@ const FeaturedProducts = ({featuredList}: any) => {
                 <span className='text-base lg:text-xl'>{featured.price}</span>
               </div>
             </div>
-            <div onMouseEnter={() => setHoveredId(featured._id)} onMouseLeave={() => setHoveredId(null)} key={featured._id} className='lg:block hidden h-max w-full group hover:shadow-2xl lg:rounded-2xl rounded-lg cursor-pointer duration-400 transition-all'>
+            <div onMouseEnter={() => setHoveredId(featured.id)} onMouseLeave={() => setHoveredId(null)} key={featured.id} className='lg:block hidden h-max w-full group hover:shadow-2xl lg:rounded-2xl rounded-lg cursor-pointer duration-400 transition-all'>
               <div className='h-full w-full lg:rounded-t-2xl rounded-t-lg overflow-hidden duration-500'>
-                {hoveredId === featured._id 
+                {hoveredId === featured.id 
                 ? 
                 <Image loading='lazy' src={featured.image2} alt="tee" width="500" height="500" className='w-full h-[500px] group-hover:scale-105 duration-500 object-cover ease-in-out transition-all' />
                 :

@@ -1,5 +1,3 @@
-import Image from "next/image";
-import { getCatalog } from "./data";
 import { Metadata } from "next";
 import CatalogItems from "@/components/CatalogItems";
 
@@ -12,17 +10,14 @@ export const metadata: Metadata = {
 };
 
 export default async function Catalog() {
-  const catalogList = await getCatalog()
 
   return (
-    <div className="flex flex-col container mx-auto h-auto max-w-[1070px] px-5 py-20 gap-10">
+    <div className='flex flex-col container mx-auto h-auto max-w-[1070px] px-5 py-20 gap-10'>
       <h1 className="text-white text-4xl">Catalog</h1>
       <div className="grid grid-cols-4 justify-between gap-5 h-full w-full overflow-hidden">
-        {catalogList.map((catalog, index) => (
-          <div key={index}>
-            <CatalogItems />
-          </div>
-        ))}
+        <div>
+          <CatalogItems />
+        </div>
      </div>
     </div>
   );
