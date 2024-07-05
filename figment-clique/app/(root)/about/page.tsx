@@ -1,3 +1,12 @@
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "Figment Clique | About",
+  description: "Figment Clique is a Clothing Brand based in the philippines",
+  openGraph: {
+    title: 'Figment Clique | About',
+  },
+};
 
 export default function About() {
   return (

@@ -16,7 +16,8 @@ export async function GET() {
             }
         });
         return NextResponse.json(catalog);
-    } catch (error) {
+    } 
+    catch (error) {
         console.error('Error fetching catalog', error);
         return NextResponse.error();
     }

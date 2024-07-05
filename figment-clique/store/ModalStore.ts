@@ -9,6 +9,10 @@ interface ModalState {
   isNavModalOpen: boolean,
   setNavModalOpen: (newState: boolean) => void
   setNavModalClose: () => void
+  //search modal
+  isSearchModalOpen: boolean,
+  setSearchModalOpen: () => void
+  setSearchModalClose: () => void
 }
 
 const useModalStore = create<ModalState>()(
@@ -22,6 +26,11 @@ const useModalStore = create<ModalState>()(
   isNavModalOpen: false,
   setNavModalOpen: (newState) => set({ isNavModalOpen: newState}),
   setNavModalClose: () => set({ isNavModalOpen: false }),
+
+  //search modal state
+  isSearchModalOpen: false,
+  setSearchModalOpen: () => set({ isSearchModalOpen: true}),
+  setSearchModalClose: () => set({ isSearchModalOpen: false }),
 }))
 
 export default useModalStore;

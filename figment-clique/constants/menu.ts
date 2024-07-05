@@ -1,5 +1,3 @@
-import crest from '../assets/crest mockup.webp'
-import crestHovered from '../assets/crest-hovered.webp'
 export const menu = [
     {
         id: 1,

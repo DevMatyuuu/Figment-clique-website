@@ -4,6 +4,7 @@ import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Cart from "@/components/Cart";
+import SearchModal from "@/components/SearchModal";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -23,14 +24,15 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="en">
+    <html lang="en">                                                                                                        
       <body className={`${inter.className} relative`}>
         <Navbar />
-          <main className="lg:pt-[185px] pt-[130px] bg-black font-poppins scroll-smooth">
+          <main className="bg-black font-poppins scroll-smooth">
             {children}
           </main>
         <Footer />
         <Cart />
+        <SearchModal />
       </body>
     </html>
   );
