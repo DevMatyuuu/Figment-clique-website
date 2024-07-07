@@ -8,10 +8,21 @@ datasource db {
 }
 
 model catalog {
-  id       String    @id @default(auto()) @map("_id") @db.ObjectId
-  title    String
-  price    String
-  image    String
-  image2   String
-  featured Boolean   @default(false) 
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  price      String
+  image      String
+  image2     String
+  featured   Boolean   @default(false) 
+  inStock Boolean   @default(false)
+}
+
+model stocks {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId
+  title      String
+  small      Int
+  medium     Int
+  large      Int
+  xl         Int
+  xxl        Int
 }

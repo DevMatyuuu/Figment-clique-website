@@ -13,7 +13,7 @@ export async function GET() {
                 image2: true,
                 price: true,
                 featured: true,
-            }
+            } 
         });
         return NextResponse.json(catalog);
     } 

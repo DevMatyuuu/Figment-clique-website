@@ -6,13 +6,15 @@ import { Divide as Hamburger } from 'hamburger-react'
 import { menu } from '@/constants/menu';
 import Link from 'next/link';
 import Image from 'next/image';
-import useNavbarStore from '@/store/NavbarStore';
 import useModalStore from '@/store/ModalStore';
+import { usePathname } from 'next/navigation';
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState<boolean>(false);
-  const [active, setActive] = useNavbarStore((state) => [state.active, state.setActive])
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [active, setActive] = useState('')
   const { isNavModalOpen, setNavModalOpen, setNavModalClose, setCartOpen, setSearchModalOpen } = useModalStore();
+
+  const pathname = usePathname()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,7 +45,7 @@ const Navbar = () => {
         <div className='lg:hidden'>
           <Hamburger size={24} toggled={isNavModalOpen} toggle={() => setNavModalOpen(!isNavModalOpen)}/>
         </div>
-        <Image loading='lazy' src={logo} alt="figment-clique-logo" className={`${isScrolled ? 'lg:w-[8rem] h-full w-[8rem] lg:py-6 py-3 transition-all duration-300 ease-in-out' : 'lg:w-[10rem] h-full w-[10rem] lg:py-10 py-5 transition-all duration-300 ease-in-out'}`}/>
+        <Image priority src={logo} alt="figment-clique-logo" className={`${isScrolled ? 'lg:w-[8rem] h-full w-[8rem] lg:py-6 py-3 transition-all duration-300 ease-in-out' : 'lg:w-[10rem] h-full w-[10rem] lg:py-10 py-5 transition-all duration-300 ease-in-out'}`}/>
         <div className='flex items-center gap-5'>
           <div onClick={setSearchModalOpen} className='lg:hidden size-6 cursor-pointer'>
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -61,19 +63,21 @@ const Navbar = () => {
         </div>
       </div>
       <div className='hidden lg:flex gap-14 justify-center items-center pb-4'>
-        {menu.map((link) => (
-          <Link href={link.route} key={link.id} className='cursor-pointer' onClick={() => setActive(link.id)}>
-            <span className={`${active === link.id ? 'text-white underline underline-offset-8' : 'text-white/70 hover:text-white duration-200'}`}>{link.title}</span>
-          </Link>
-        ))}
-      </div>
+      {menu.map((link) => (
+        <Link href={link.route} key={link.id} className='cursor-pointer'>
+          <span className={`${active === link.title || link.route === pathname ? 'text-white underline underline-offset-8' : 'text-white/70 hover:text-white duration-200'}`}>
+            {link.title}
+          </span>
+        </Link>
+      ))}
+    </div>
     </div>
     {/* mobile nav */}
     <div className={`${isNavModalOpen ? 'left-0' : '-left-[1500px]'} lg:hidden bg-black z-50 fixed top-[70px] w-full h-screen duration-500 transition-all`}>
       <div className='flex flex-col h-full justify-start pt-36 gap-9 text-4xl px-10 text-white'>
         {menu.map((link) => (
-          <Link href={link.route} key={link.id} className='cursor-pointer w-max' onClick={() => {setNavModalClose(); setActive(link.id)}}>
-            <span className={`${active === link.id ? 'text-white underline underline-offset-8' : 'text-white/70 hover:text-white duration-200'}`}>{link.title}</span>
+          <Link href={link.route} key={link.id} className='cursor-pointer w-max' onClick={() => setNavModalClose()}>
+            <span className={`${active === link.title || link.route === pathname ? 'text-white underline underline-offset-8' : 'text-white/70 hover:text-white duration-200'}`}>{link.title}</span>
           </Link>
         ))}
       </div>
