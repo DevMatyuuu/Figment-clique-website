@@ -36,14 +36,14 @@ const CatalogItems = () => {
   if (!catalogData || catalogData.length === 0) return <p>No catalog data available</p>;
 
   return (
-    <div className='grid grid-cols-2 lg:grid-cols-4 w-full'>
+    <div className='grid grid-cols-2 lg:grid-cols-4 w-full gap-4'>
       {catalogData.map((item) => (
-        <div key={item.id} className="flex flex-col w-full justify-center items-center bg-white text-black rounded-xl group cursor-pointer">
+        <div key={item.id} className="flex flex-col w-full justify-center items-center bg-white text-black rounded-xl group cursor-pointer pb-4">
           <img src={item.image} alt={item.title} width="150" height="200" className="rounded-xl lg:w-[250px] h-full object-cover group-hover:scale-105 duration-500 cursor-pointer" />
-          <h1 className="text-lg z-40" data-aos="fade-up">
+          <h1 className="text-base z-40 group-hover:underline underline-offset-2 underline-black" data-aos="fade-up">
             {item.title}
           </h1>
-          <h1 className="text-lg" data-aos="fade-up">
+          <h1 className="text-sm" data-aos="fade-up">
             {item.price}
           </h1>
         </div>

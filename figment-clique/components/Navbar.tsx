@@ -69,7 +69,7 @@ const Navbar = () => {
       </div>
     </div>
     {/* mobile nav */}
-    <div className={`${isNavModalOpen ? 'left-0' : '-left-[1500px]'} lg:hidden bg-black z-50 fixed top-24 w-full h-screen duration-500 transition-all`}>
+    <div className={`${isNavModalOpen ? 'left-0' : '-left-[1500px]'} lg:hidden bg-black z-50 fixed top-[70px] w-full h-screen duration-500 transition-all`}>
       <div className='flex flex-col h-full justify-start pt-36 gap-9 text-4xl px-10 text-white'>
         {menu.map((link) => (
           <Link href={link.route} key={link.id} className='cursor-pointer w-max' onClick={() => {setNavModalClose(); setActive(link.id)}}>
