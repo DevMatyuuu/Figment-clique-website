@@ -6,7 +6,6 @@ import Footer from "@/components/Footer";
 import Cart from "@/components/Cart";
 import SearchModal from "@/components/SearchModal";
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {

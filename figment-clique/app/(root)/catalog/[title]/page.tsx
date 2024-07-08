@@ -1,8 +1,21 @@
+
+import ProductDetails from '@/components/ProductDetails';
 import React from 'react'
 
-const page = () => {
+interface Params {
+  params: {
+      title: string;
+  };
+}
+
+const page = ({ params }: Params) => {
+
+  const paramsTitle = params.title
+
   return (
-    <div>page</div>
+    <div>
+      <ProductDetails paramsTitle = {paramsTitle} />
+    </div>
   )
 }
 
