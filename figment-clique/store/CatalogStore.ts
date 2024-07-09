@@ -15,6 +15,7 @@ const useCatalogStore = create<CatalogState>((set) => ({
 
   fetchCatalogData: async () => {
     try {
+      new Promise((resolve) => setTimeout(() => resolve('delay'), 1000))
       const response = await fetch('/api/catalog');
       if (!response.ok) {
         throw new Error('Network response was not ok');

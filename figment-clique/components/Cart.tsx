@@ -1,14 +1,19 @@
 'use client'
 
+import useCartStore from '@/store/CartStore';
 import useModalStore from '@/store/ModalStore';
 import React from 'react';
+import CartItems from './CartItems';
 
 const Cart = () => {
   const { isCartOpen, setCartClose } = useModalStore();
+  const { cart, total, clearCart } = useCartStore();
+
+  console.log(cart)
 
   return (
     <div className={`${isCartOpen ? 'z-50 opacity-1' : '-z-10 opacity-0'} w-full bg-black/50 h-full fixed top-0 duration-500 transition-all`}>
-      <aside className={`${isCartOpen ? 'right-0' : 'right-[-2000px]'} fixed top-0 h-screen lg:w-[30%] overflow-hidden w-[100%] z-50 bg-black transition-all duration-300 ease-in-out`}>
+      <aside className={`${isCartOpen ? 'right-0' : 'right-[-2000px]'} fixed top-0 h-screen lg:w-[23%] lg:border lg:border-l-white/15 overflow-hidden w-[100%] z-50 bg-black transition-all duration-300 ease-in-out`}>
         <div className='flex flex-col items-start gap-10 py-8 px-10'>
           <div onClick={setCartClose} className='text-white cursor-pointer'>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -17,6 +22,14 @@ const Cart = () => {
             </svg>
           </div>
           <span className='text-white text-4xl'>Cart</span>
+          <div className='w-full flex flex-col gap-10'>
+            {cart.map((item) => (
+              <>
+                <CartItems item={item} />
+              </>
+            ))}
+          </div>
+          <button onClick={clearCart} className='text-white'>clear cart</button>
         </div>
       </aside>
     </div>

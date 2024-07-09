@@ -10,10 +10,11 @@ datasource db {
 model catalog {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
   title      String
-  price      String
+  price      Int
   image      String
   image2     String
   featured   Boolean   @default(false) 
+  amount     Int
 }
 
 model stocks {

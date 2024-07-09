@@ -1,7 +1,7 @@
 'use client'
 
 import useCatalogStore from '@/store/CatalogStore';
-import { stockProps } from '@/types';
+import { Cart, catalogProps, stockProps } from '@/types';
 import React, { useEffect, useState } from 'react'
 import {
   Select,
@@ -10,6 +10,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import useModalStore from '@/store/ModalStore';
+import useCartStore from '@/store/CartStore';
 
 
 interface params {
@@ -18,8 +20,12 @@ interface params {
 
 
 const ProductDetails = ({paramsTitle} : params) => {
-  const catalogItems = useCatalogStore((state) => state.catalogItems);
+  const { addToCart } = useCartStore();
+  const { catalogItems } = useCatalogStore();
+  const { setCartOpen } = useModalStore();
   const [stocks, setStocks] = useState<Array<stockProps>>([])
+  const [selectedSize, setSelectedSize] = useState('');
+
 
   const decodedParams = decodeURIComponent(paramsTitle);
   
@@ -46,8 +52,6 @@ const ProductDetails = ({paramsTitle} : params) => {
   const catalogItemData = catalogItems.find(item => item.title === decodedParams);
   const catalogStocks = stocks.find(item => item.catalogTitle === decodedParams)
 
-  console.log(catalogItemData)
-
 
   return (
 
@@ -58,16 +62,19 @@ const ProductDetails = ({paramsTitle} : params) => {
           <div>
             <span className='text-lg'>{catalogItemData?.price} PHP</span>
           </div>
-          <Select>
+          <Select onValueChange={(value) => setSelectedSize(value)}>
             <SelectTrigger className="w-[180px]">
               <SelectValue placeholder="Sizes" />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value='small'>{catalogStocks?.small as number > 0 ? <span>small</span> : <span>small - Unavailable</span> }</SelectItem>
-              <SelectItem value="dark">Dark</SelectItem>
-              <SelectItem value="system">System</SelectItem>
+              <SelectItem value='Small'>{catalogStocks?.small as number > 0 ? <span>Small</span> : <span>Small - Unavailable</span> }</SelectItem>
+              <SelectItem value='Medium'>{catalogStocks?.medium as number > 0 ? <span>Medium</span> : <span>Medium - Unavailable</span> }</SelectItem>
+              <SelectItem value='Large'>{catalogStocks?.large as number > 0 ? <span>Large</span> : <span>Large - Unavailable</span> }</SelectItem>
+              <SelectItem value='XL'>{catalogStocks?.xl as number > 0 ? <span>XL</span> : <span>XL - Unavailable</span> }</SelectItem>
+              <SelectItem value='XXL'>{catalogStocks?.xxl as number > 0 ? <span>XXL</span> : <span>XXL - Unavailable</span> }</SelectItem>
             </SelectContent>
           </Select>
+          <button onClick={() => {addToCart(catalogItemData as catalogProps | Cart); setCartOpen()}} className='bg-white text-black mt-20'>Add to cart</button>
         </div>
         <div></div>
       </div>
