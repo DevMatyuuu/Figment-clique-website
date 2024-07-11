@@ -11,12 +11,12 @@ interface cartItems {
 }
 
 const CartItems = ({item} : cartItems) => {
-  const [itemQty, setItemQty] = useState(item.amount);
+  const [itemQty, setItemQty] = useState(item.quantity);
   const { increment, decrement, removeFromCart } = useCartStore();
 
   useEffect(() => {
-    setItemQty(item.amount);
-  }, [item.amount]);
+    setItemQty(item.quantity);
+  }, [item.quantity]);
 
   const handleDecrement = () => {
     const decrementValue = 1;
@@ -48,7 +48,7 @@ const CartItems = ({item} : cartItems) => {
           <div className='flex flex-col'>
             <h2 className='text-white mb-2 text-sm lg:text-base'>{item.title}</h2>
             <h2 className='text-white/80 lg:mb-2 mb-1 text-sm lg:text-base'>Price: ₱{item.price}</h2>
-            <h2 className='text-white/80 lg:mb-6 mb-4 text-sm lg:text-base'>Size: Large</h2>
+            <h2 className='text-white/80 lg:mb-6 mb-4 text-sm lg:text-base'>Size: {item.size}</h2>
             <div className='flex items-center gap-5'>
               <div className='flex lg:h-10 h-10 w-24 lg:w-28 items-center justify-around bg-black text-white border border-white rounded-lg'>
                 <FiMinus onClick={() => handleDecrement()} className='cursor-pointer text-white/70 hover:text-white duration-200'/>

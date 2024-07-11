@@ -10,13 +10,10 @@ const Cart = () => {
   const { isCartOpen, setCartClose } = useModalStore();
   const { cart, total, clearCart, setTotal } = useCartStore();
 
-  console.log(cart)
-
   useEffect(() => {
     const total = cart.reduce((a, c) => {
-      const origPrice = c.price
       return (
-         a + origPrice * c.amount
+         a + c.price * c.quantity
         )
     }, 0)
     setTotal(total)

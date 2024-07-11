@@ -1,11 +1,12 @@
 export type catalogProps = {
-    amount: number
+    quantity: number
     id: string,
     title: string,
     image: string,
     image2: string,
     price: number,
-    featured: boolean
+    featured: boolean,
+    size: string
   }
 
 export type stockProps = {
@@ -19,9 +20,10 @@ export type stockProps = {
 }
 
 export type Cart = {
+  size: string
   id: string;
   title: string,
   image: string,
-  amount: number;
+  quantity: number;
   price: number;
 }

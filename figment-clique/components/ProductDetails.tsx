@@ -1,7 +1,7 @@
 'use client'
 
 import useCatalogStore from '@/store/CatalogStore';
-import { Cart, catalogProps, stockProps } from '@/types';
+import { Cart, stockProps } from '@/types';
 import React, { useEffect, useState } from 'react'
 import {
   Select,
@@ -20,11 +20,10 @@ interface params {
 
 
 const ProductDetails = ({paramsTitle} : params) => {
-  const { addToCart } = useCartStore();
+  const { addToCart, setSelectedSize, selectedSize } = useCartStore();
   const { catalogItems } = useCatalogStore();
   const { setCartOpen } = useModalStore();
   const [stocks, setStocks] = useState<Array<stockProps>>([])
-  const [selectedSize, setSelectedSize] = useState('');
 
 
   const decodedParams = decodeURIComponent(paramsTitle);
@@ -52,6 +51,13 @@ const ProductDetails = ({paramsTitle} : params) => {
   const catalogItemData = catalogItems.find(item => item.title === decodedParams);
   const catalogStocks = stocks.find(item => item.catalogTitle === decodedParams)
 
+  const addToCartDisabled = !selectedSize
+                            || catalogStocks?.small as number === 0 && selectedSize === 'Small' 
+                            || catalogStocks?.medium as number === 0 && selectedSize === 'Medium'
+                            || catalogStocks?.large as number === 0 && selectedSize === 'Large'
+                            || catalogStocks?.xl as number === 0 && selectedSize === 'XL'
+                            || catalogStocks?.xxl as number === 0 && selectedSize === 'XXL'
+
 
   return (
 
@@ -74,7 +80,7 @@ const ProductDetails = ({paramsTitle} : params) => {
               <SelectItem value='XXL'>{catalogStocks?.xxl as number > 0 ? <span>XXL</span> : <span>XXL - Unavailable</span> }</SelectItem>
             </SelectContent>
           </Select>
-          <button onClick={() => {addToCart(catalogItemData as catalogProps | Cart); setCartOpen()}} className='bg-white text-black mt-20'>Add to cart</button>
+          <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen(); setSelectedSize('')}} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-white/60' : ''} bg-white text-black mt-20`}>Add to cart</button>
         </div>
         <div></div>
       </div>
