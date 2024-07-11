@@ -39,13 +39,13 @@ const Products = () => {
       {catalogItems.map((item, index) => {
         const duration = index < 8 ? (200 * index) + 400 : 400;
         return (
-        <div onClick={() => seeProduct(item.title) } key={item.id} data-aos="fade-zoom-in" data-aos-easing="ease-in-back" data-aos-duration={duration} className="relative flex flex-col w-full justify-center items-center bg-white  text-black rounded-xl group cursor-pointer pb-4">
+        <div onClick={() => seeProduct(item.title) } key={item.id} data-aos="fade-zoom-in" data-aos-once="true" data-aos-easing="ease-in-back" data-aos-duration={duration} className="relative flex flex-col w-full justify-center items-center bg-white  text-black rounded-xl group cursor-pointer pb-4">
           <img src={item.image} alt={item.title} width="150" height="185" className="rounded-xl lg:w-[250px] h-full object-cover group-hover:scale-105 duration-500 cursor-pointer" />
           <h1 className="text-base z-40 group-hover:underline underline-offset-2 underline-black">
             {item.title}
           </h1>
           <h1 className="text-sm">
-            {item.price}
+            ₱{item.price}
           </h1>
         </div>
         )

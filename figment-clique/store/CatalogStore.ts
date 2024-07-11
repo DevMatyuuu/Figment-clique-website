@@ -1,7 +1,7 @@
 // catalogStore.ts
 
 import { catalogProps } from '@/types';
-import create from 'zustand';
+import { create } from 'zustand';
 
 interface CatalogState {
   catalogItems: catalogProps[];

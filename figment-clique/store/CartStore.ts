@@ -12,6 +12,7 @@ interface CartState {
   decrement: (itemId: string) => void;
   calculateTotal: () => number;
   clearCart: () => void;
+  setTotal: (total: number) => void;
 }
 
 const useCartStore = create<CartState>()(
@@ -21,6 +22,8 @@ const useCartStore = create<CartState>()(
   total: 0,
   amount: 0,
 
+  setTotal: (total) => set({ total: total }),
+  
   addToCart: (item) => {
     set((state) => {
       const existingItem = state.cart.find((cartItem) => cartItem.id === item.id);
