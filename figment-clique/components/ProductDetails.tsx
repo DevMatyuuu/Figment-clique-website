@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/select"
 import useModalStore from '@/store/ModalStore';
 import useCartStore from '@/store/CartStore';
+import Image from 'next/image';
 
 
 interface params {
@@ -82,7 +83,9 @@ const ProductDetails = ({paramsTitle} : params) => {
           </Select>
           <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen(); setSelectedSize('')}} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-white/60' : ''} bg-white text-black mt-20`}>Add to cart</button>
         </div>
-        <div></div>
+        <div>
+          <Image src={catalogItemData?.image as string} alt={catalogItemData?.title as string} width={600} height={400} />
+        </div>
       </div>
     </div>
   )

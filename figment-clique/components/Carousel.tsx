@@ -38,8 +38,8 @@ const Carousel = () => {
               </SwiperSlide>
         </Swiper>
         <div className='flex relative mx-auto w-[120px]'>
-          <button className='absolute bottom-[8px] z-10 text-white/60 hover:text-white duration-300' onClick={() => swiper?.slidePrev()}><MdKeyboardArrowLeft className='size-5' /></button>
-          <button className='absolute bottom-[8px] right-0 text-white/60 z-10 hover:text-white duration-300' onClick={() => swiper?.slideNext()}><MdKeyboardArrowRight className='size-5' /></button>
+          <button aria-label='prev-button' className='absolute bottom-[8px] z-10 text-white/60 hover:text-white duration-300' onClick={() => swiper?.slidePrev()}><MdKeyboardArrowLeft className='size-5' /></button>
+          <button aria-label='next-button' className='absolute bottom-[8px] right-0 text-white/60 z-10 hover:text-white duration-300' onClick={() => swiper?.slideNext()}><MdKeyboardArrowRight className='size-5' /></button>
         </div>
       </div>
   )
