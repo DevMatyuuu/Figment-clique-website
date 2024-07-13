@@ -5,6 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Cart from "@/components/Cart";
 import SearchModal from "@/components/SearchModal";
+import Provider from "@/lib/TanstackProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -25,13 +26,15 @@ export default function RootLayout({
   return (
     <html lang="en">                                                                                                        
       <body className={`${inter.className} relative`}>
-        <Navbar />
-          <main className="bg-black font-poppins scroll-smooth">
-            {children}
-          </main>
-        <Footer />
-        <Cart />
-        <SearchModal />
+        <Provider>
+          <Navbar />
+            <main className="bg-black font-poppins scroll-smooth">
+              {children}
+            </main>
+          <Footer />
+          <Cart />
+          <SearchModal />
+        </Provider>
       </body>
     </html>
   );
