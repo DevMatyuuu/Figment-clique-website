@@ -6,6 +6,7 @@ export type catalogProps = {
     image2: string,
     price: number,
     featured: boolean
+    size: string
   }
 
 export type stockProps = {
@@ -24,4 +25,5 @@ export type Cart = {
   image: string,
   amount: number;
   price: number;
+  size: string,
 }
