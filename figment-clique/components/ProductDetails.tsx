@@ -1,8 +1,7 @@
 'use client'
 
-import useCatalogStore from '@/store/CatalogStore';
-import { Cart, stockProps } from '@/types';
-import React, { useEffect, useState } from 'react'
+import { Cart } from '@/types';
+import React from 'react'
 import {
   Select,
   SelectContent,
@@ -13,6 +12,11 @@ import {
 import useModalStore from '@/store/ModalStore';
 import useCartStore from '@/store/CartStore';
 import Image from 'next/image';
+import { useQuery } from '@tanstack/react-query';
+import axios from 'axios';
+import { TbArrowBackUp } from "react-icons/tb";
+import Link from 'next/link';
+import { catalog, stocks } from '@prisma/client';
 
 
 interface params {
@@ -22,35 +26,29 @@ interface params {
 
 const ProductDetails = ({paramsTitle} : params) => {
   const { addToCart, setSelectedSize, selectedSize } = useCartStore();
-  const { catalogItems } = useCatalogStore();
   const { setCartOpen } = useModalStore();
-  const [stocks, setStocks] = useState<Array<stockProps>>([])
 
+  const {data : catalogData, error: catalogError, isLoading: catalogLoading} = useQuery<Array<catalog>>({
+    queryKey: ['catalog'],
+    queryFn: async () => {
+      const response = await axios.get('/api/catalog')
+      return response.data
+    }
+  });
+
+  const {data : stocksData, error: stockError, isLoading: stockLoading} = useQuery<Array<stocks>>({
+    queryKey: ['stocks'],
+    queryFn: async () => {
+      const response = await axios.get('/api/stocks')
+      return response.data
+    }
+  });
 
   const decodedParams = decodeURIComponent(paramsTitle);
   
-   useEffect(() => {
-    useCatalogStore.getState().fetchCatalogData();
-  }, []);
 
-  useEffect(() => {
-    fetch('/api/stocks')
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return res.json();
-      })
-      .then((data) => {
-        setStocks(data);
-      })
-      .catch((error) => {
-        console.error('Error fetching catalog data', error);
-      });
-  }, []);
-
-  const catalogItemData = catalogItems.find(item => item.title === decodedParams);
-  const catalogStocks = stocks.find(item => item.catalogTitle === decodedParams)
+  const catalogItemData = catalogData?.find(item => item.title === decodedParams);
+  const catalogStocks = stocksData?.find(item => item.catalogTitle === decodedParams)
 
   const addToCartDisabled = !selectedSize
                             || catalogStocks?.small as number === 0 && selectedSize === 'Small' 
@@ -61,9 +59,12 @@ const ProductDetails = ({paramsTitle} : params) => {
 
 
   return (
-
-    <div className='h-screen w-full pt-60'>
-      <div className="text-white flex container mx-auto max-w-[1070px] px-5">
+    <div className='container mx-auto max-w-[1070px] px-5 h-screen w-full pt-60'>
+      <Link href={'/catalog'} className='flex items-center gap-2 text-lg cursor-pointer w-max'>
+        <TbArrowBackUp className='text-white'/>
+        <div className='text-white'>Back</div>
+      </Link>
+      <div className="text-white flex">
         <div className='flex flex-col'>
           <h1 className='text-4xl'>{catalogItemData?.title}</h1>
           <div>

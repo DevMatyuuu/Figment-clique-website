@@ -5,7 +5,7 @@ import Image from 'next/image';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useRouter } from 'next/navigation';
-import { stockProps } from '@/types';
+import { stocks } from '@prisma/client';
 
 type featuredProps = {
   id: string,
@@ -20,7 +20,7 @@ const FeaturedProducts = () => {
   const [hoveredId, setHoveredId] = useState<null | string>(null);
   const [featuredData, setFeaturedData] = useState<Array<featuredProps>>([]);
   const [isLoading, setLoading] = useState(true);
-  const [stocks, setStocks] = useState<Array<stockProps>>([])
+  const [stocks, setStocks] = useState<Array<stocks>>([])
   const router = useRouter();
 
   useEffect(() => {
