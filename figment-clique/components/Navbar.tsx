@@ -11,10 +11,10 @@ import { usePathname } from 'next/navigation';
 import useCartStore from '@/store/CartStore';
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [active, setActive] = useState('')
+  const [ isScrolled, setIsScrolled ] = useState(false);
+  const [ active, setActive ] = useState('')
   const { isNavModalOpen, setNavModalOpen, setNavModalClose, setCartOpen, setSearchModalOpen } = useModalStore();
-  const { cart } = useCartStore();
+  const { cart, setSelectedSize } = useCartStore();
   const [ itemsTotalQty, setItemsTotalQty] = useState(0)
 
   const pathname = usePathname()
@@ -78,7 +78,7 @@ const Navbar = () => {
       </div>
       <div className='hidden lg:flex gap-14 justify-center items-center pb-4'>
       {menu.map((link) => (
-        <Link href={link.route} key={link.id} className='cursor-pointer'>
+        <Link href={link.route} key={link.id} className='cursor-pointer' onClick={() => setSelectedSize('')}>
           <span className={`${active === link.title || link.route === pathname ? 'text-white underline underline-offset-8' : 'text-white/70 hover:text-white duration-200'}`}>
             {link.title}
           </span>
@@ -87,10 +87,10 @@ const Navbar = () => {
     </div>
     </div>
     {/* mobile nav */}
-    <div className={`${isNavModalOpen ? 'left-0' : '-left-[1500px]'} lg:hidden bg-black z-50 fixed top-[70px] w-full h-screen duration-500 transition-all`}>
+    <div className={`${isNavModalOpen ? 'left-0' : '-left-[1000px]'} lg:hidden bg-black z-50 fixed top-[70px] w-full h-screen duration-500 transition-all`}>
       <div className='flex flex-col h-full justify-start pt-36 gap-9 text-4xl px-10 text-white'>
         {menu.map((link) => (
-          <Link href={link.route} key={link.id} className='cursor-pointer w-max' onClick={() => setNavModalClose()}>
+          <Link href={link.route} key={link.id} className='cursor-pointer w-max' onClick={() => {setNavModalClose(); setSelectedSize('')}}>
             <span className={`${active === link.title || link.route === pathname ? 'text-white underline underline-offset-8' : 'text-white/70 hover:text-white duration-200'}`}>{link.title}</span>
           </Link>
         ))}

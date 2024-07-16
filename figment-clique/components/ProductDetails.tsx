@@ -1,7 +1,8 @@
 'use client'
 
 import { Cart } from '@/types';
-import React from 'react'
+import logo from '@/assets/logo.webp'
+import React, { useState } from 'react'
 import {
   Select,
   SelectContent,
@@ -12,11 +13,13 @@ import {
 import useModalStore from '@/store/ModalStore';
 import useCartStore from '@/store/CartStore';
 import Image from 'next/image';
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import { TbArrowBackUp } from "react-icons/tb";
 import Link from 'next/link';
-import { catalog, stocks } from '@prisma/client';
+import useFetchCatalog from '@/hooks/useFetchCatalog';
+import useFetchStocks from '@/hooks/useFetchStocks';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+
 
 
 interface params {
@@ -26,27 +29,14 @@ interface params {
 
 const ProductDetails = ({paramsTitle} : params) => {
   const { addToCart, setSelectedSize, selectedSize } = useCartStore();
+  const [selectedPreview, setSelectedPreview] = useState('');
   const { setCartOpen } = useModalStore();
 
-  const {data : catalogData, error: catalogError, isLoading: catalogLoading} = useQuery<Array<catalog>>({
-    queryKey: ['catalog'],
-    queryFn: async () => {
-      const response = await axios.get('/api/catalog')
-      return response.data
-    }
-  });
-
-  const {data : stocksData, error: stockError, isLoading: stockLoading} = useQuery<Array<stocks>>({
-    queryKey: ['stocks'],
-    queryFn: async () => {
-      const response = await axios.get('/api/stocks')
-      return response.data
-    }
-  });
+  const { data: catalogData, error: catalogError, isLoading: isCatalogLoading} = useFetchCatalog();
+  const {data: stocksData, error: stocksError, isLoading: isStocksLoading} = useFetchStocks()
 
   const decodedParams = decodeURIComponent(paramsTitle);
   
-
   const catalogItemData = catalogData?.find(item => item.title === decodedParams);
   const catalogStocks = stocksData?.find(item => item.catalogTitle === decodedParams)
 
@@ -56,36 +46,84 @@ const ProductDetails = ({paramsTitle} : params) => {
                             || catalogStocks?.large as number === 0 && selectedSize === 'Large'
                             || catalogStocks?.xl as number === 0 && selectedSize === 'XL'
                             || catalogStocks?.xxl as number === 0 && selectedSize === 'XXL'
-
+  
+  const previewImages = [
+    {
+      id: 1,
+      image: catalogItemData?.image,
+      title: catalogItemData?.title
+    },
+    {
+      id: 2,
+      image: catalogItemData?.image2,
+      title: catalogItemData?.title
+    },
+    {
+      id: 3,
+      image: catalogItemData?.image2,
+      title: catalogItemData?.title
+    },
+    {
+      id: 4,
+      image: catalogItemData?.image2,
+      title: catalogItemData?.title
+    },
+  ]
 
   return (
-    <div className='container mx-auto max-w-[1070px] px-5 h-screen w-full pt-60'>
-      <Link href={'/catalog'} className='flex items-center gap-2 text-lg cursor-pointer w-max'>
+    <div className={`${isCatalogLoading ? 'h-screen' : 'h-auto min-h-screen'} flex flex-col gap-10 container mx-auto max-w-[1070px] px-5 w-full lg:pt-60 lg:pb-20 py-28 lg:py-0`}>
+      <Link href={'/catalog'} onClick={() => setSelectedSize('')} className='flex items-center gap-2 text-lg cursor-pointer w-max'>
         <TbArrowBackUp className='text-white'/>
         <div className='text-white'>Back</div>
       </Link>
-      <div className="text-white flex">
-        <div className='flex flex-col'>
-          <h1 className='text-4xl'>{catalogItemData?.title}</h1>
-          <div>
-            <span className='text-lg'>{catalogItemData?.price} PHP</span>
+      <div className="text-white flex lg:flex-row flex-col-reverse gap-10">
+        <div className='flex flex-col w-full lg:pt-10'>
+          <h1 className='text-2xl lg:text-4xl'>{catalogItemData?.title}</h1>
+          <div className='flex flex-row-reverse w-full justify-end my-5 items-center gap-10'>
+            <span className='text-base lg:text-lg'>₱{catalogItemData?.price} PHP</span>
+            <Select onValueChange={(value) => setSelectedSize(value)}>
+              <SelectTrigger className="w-[180px]">
+                <SelectValue placeholder="Pick a size" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value='Small'>{catalogStocks?.small as number > 0 ? <span>Small</span> : <span>Small - Unavailable</span> }</SelectItem>
+                <SelectItem value='Medium'>{catalogStocks?.medium as number > 0 ? <span>Medium</span> : <span>Medium - Unavailable</span> }</SelectItem>
+                <SelectItem value='Large'>{catalogStocks?.large as number > 0 ? <span>Large</span> : <span>Large - Unavailable</span> }</SelectItem>
+                <SelectItem value='XL'>{catalogStocks?.xl as number > 0 ? <span>XL</span> : <span>XL - Unavailable</span> }</SelectItem>
+                <SelectItem value='XXL'>{catalogStocks?.xxl as number > 0 ? <span>XXL</span> : <span>XXL - Unavailable</span> }</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
-          <Select onValueChange={(value) => setSelectedSize(value)}>
-            <SelectTrigger className="w-[180px]">
-              <SelectValue placeholder="Sizes" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value='Small'>{catalogStocks?.small as number > 0 ? <span>Small</span> : <span>Small - Unavailable</span> }</SelectItem>
-              <SelectItem value='Medium'>{catalogStocks?.medium as number > 0 ? <span>Medium</span> : <span>Medium - Unavailable</span> }</SelectItem>
-              <SelectItem value='Large'>{catalogStocks?.large as number > 0 ? <span>Large</span> : <span>Large - Unavailable</span> }</SelectItem>
-              <SelectItem value='XL'>{catalogStocks?.xl as number > 0 ? <span>XL</span> : <span>XL - Unavailable</span> }</SelectItem>
-              <SelectItem value='XXL'>{catalogStocks?.xxl as number > 0 ? <span>XXL</span> : <span>XXL - Unavailable</span> }</SelectItem>
-            </SelectContent>
-          </Select>
-          <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen(); setSelectedSize('')}} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-white/60' : ''} bg-white text-black mt-20`}>Add to cart</button>
+          <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen();}} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-white/60' : ''} bg-white text-black mt-5 h-10 rounded-lg w-[300px]`}>Add to cart</button>
         </div>
-        <div>
-          <Image src={catalogItemData?.image as string} alt={catalogItemData?.title as string} width={600} height={400} />
+        <div className='flex flex-col w-[50%] gap-10'>
+          <div className='lg:w-full w-max lg:mx-0 mx-auto'>
+            {catalogItemData?.image 
+            ? 
+            <Image src={selectedPreview ? selectedPreview : catalogItemData.image} alt={catalogItemData?.title as string} width={600} height={400} className='h-full w-[400px] lg:w-full rounded-lg' />
+            :
+            <div className='flex justify-center items-center'>
+              <Image src={logo} alt='logo' width={200} height={200} className='w-full'/>
+            </div>}
+          </div>
+          <div className='w-full'>
+            <Swiper 
+            slidesPerView={3}
+            spaceBetween={0}
+            className='flex w-full'>
+              {previewImages.map((image) => (
+              <SwiperSlide className='h-full my-auto' key={image.id}>
+                {image.image 
+                ?
+                
+                <Image src={image.image as string} alt={image.title as string} onClick={() => setSelectedPreview(image.image as string)} width={150} height={100} className='mx-auto cursor-pointer w-[100px]'/> 
+                :
+                ''
+                }
+              </SwiperSlide>
+               ))}
+            </Swiper>
+          </div>
         </div>
       </div>
     </div>

@@ -44,7 +44,7 @@ const CartItems = ({item} : cartItems) => {
         <div className='flex flex-col items-center w-max'>
           <Image src={item.image as string} alt={item.title} width={150} height={150} className='lg:h-32 h-40 lg:w-40 w-60'/>
         </div>
-        <div  className='flex justify-between w-[70%] px-5'>
+        <div  className='flex justify-between w-[60%] px-5'>
           <div className='flex flex-col'>
             <h2 className='text-white mb-2 text-sm lg:text-base w-[80%]'>{item.title}</h2>
             <h2 className='text-white/80 lg:mb-2 mb-1 text-sm lg:text-base'>Price: ₱{item.price}</h2>

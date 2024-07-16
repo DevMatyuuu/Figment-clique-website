@@ -45,7 +45,7 @@ const Cart = () => {
             <div className='flex flex-col w-[80%] justify-center items-center'>
               <div className='flex w-full justify-between'>
                 <span className='text-white text-2xl'>Total:</span>
-                <span className='text-white'>₱{total}</span>
+                <span className='text-white text-2xl'>₱{total}</span>
               </div>
             </div>
             <div className='flex flex-col gap-5 w-[80%]'>
