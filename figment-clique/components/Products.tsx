@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import useFetchCatalog from '@/hooks/useFetchCatalog';
 import useFetchStocks from '@/hooks/useFetchStocks';
+import Link from 'next/link';
+import { CldImage } from 'next-cloudinary';
 
 const Products = () => {
   const { data: catalogData, error: catalogError, isLoading: isCatalogLoading} = useFetchCatalog();
@@ -46,8 +48,8 @@ const Products = () => {
               stockEntry?.xxl as number === 0
 
         return (
-        <div onClick={() => seeProduct(item.title) } key={item.id} data-aos="fade-zoom-in" data-aos-once="true" data-aos-easing="ease-in-back" data-aos-duration={duration} className="relative flex flex-col w-full justify-center items-center bg-white  text-black rounded-xl group cursor-pointer pb-4">
-          <Image src={item.image} alt={item.title} width="150" height="185" className="rounded-xl lg:w-[250px] py-10 h-full object-cover group-hover:scale-105 duration-500 cursor-pointer" />
+        <Link href={`/catalog/${item.title}`} key={item.id} data-aos="fade-zoom-in" data-aos-once="true" data-aos-easing="ease-in-back" data-aos-duration={duration} className={`${item.image ? 'flex ' : 'hidden'} relative flex-col w-full justify-center items-center bg-white  text-black rounded-xl group cursor-pointer pb-4`}>
+          <CldImage src={item.image} alt={item.title} width="150" height="185" className="rounded-xl lg:w-[250px] py-10 h-full object-cover group-hover:scale-105 duration-500 cursor-pointer" />
           <h1 className="text-base z-40 group-hover:underline underline-offset-2 underline-black">
             {item.title}
           </h1>
@@ -62,7 +64,7 @@ const Products = () => {
               ''  
             }
           </div>
-        </div>
+        </Link>
         )
       })}
     </div>

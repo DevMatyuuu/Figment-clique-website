@@ -31,6 +31,7 @@ const ProductDetails = ({paramsTitle} : params) => {
   const { addToCart, setSelectedSize, selectedSize } = useCartStore();
   const [selectedPreview, setSelectedPreview] = useState('');
   const { setCartOpen } = useModalStore();
+  const [isClicked, setIsClicked] = useState(1)
 
   const { data: catalogData, error: catalogError, isLoading: isCatalogLoading} = useFetchCatalog();
   const {data: stocksData, error: stocksError, isLoading: isStocksLoading} = useFetchStocks()
@@ -94,16 +95,16 @@ const ProductDetails = ({paramsTitle} : params) => {
               </SelectContent>
             </Select>
           </div>
-          <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen();}} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-white/60' : ''} bg-white text-black mt-5 h-10 rounded-lg w-[300px]`}>Add to cart</button>
+          <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen();}} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-white/60 hover:bg-white/60 hover:text-black' : ''} bg-white text-black mt-5 h-10 rounded-lg lg:w-[300px]  w-full hover:bg-white/70 hover:text-white duration-200`}>Add to cart</button>
         </div>
-        <div className='flex flex-col w-[50%] gap-10'>
+        <div className='flex flex-col lg:w-[50%] w-full gap-10 mx-auto'>
           <div className='lg:w-full w-max lg:mx-0 mx-auto'>
             {catalogItemData?.image 
             ? 
-            <Image src={selectedPreview ? selectedPreview : catalogItemData.image} alt={catalogItemData?.title as string} width={600} height={400} className='h-full w-[400px] lg:w-full rounded-lg' />
+            <Image src={selectedPreview ? selectedPreview : catalogItemData.image} alt={catalogItemData?.title as string} width={600} height={400} className='h-full w-[420px] lg:w-full rounded-lg bg-white' />
             :
-            <div className='flex justify-center items-center'>
-              <Image src={logo} alt='logo' width={200} height={200} className='w-full'/>
+            <div className='flex justify-center items-center w-full h-full'>
+              <Image src={logo} alt='logo' width={600} height={400} className='w-full h-full'/>
             </div>}
           </div>
           <div className='w-full'>
@@ -116,7 +117,7 @@ const ProductDetails = ({paramsTitle} : params) => {
                 {image.image 
                 ?
                 
-                <Image src={image.image as string} alt={image.title as string} onClick={() => setSelectedPreview(image.image as string)} width={150} height={100} className='mx-auto cursor-pointer w-[100px]'/> 
+                <Image src={image.image as string} alt={image.title as string} onClick={() => {setSelectedPreview(image.image as string); setIsClicked(image.id)}} width={150} height={100} className={`${isClicked === image.id ? 'border border-white/30 ' : ''} mx-auto cursor-pointer w-[120px] rounded-lg h-[100px] object-contain`}/> 
                 :
                 ''
                 }
