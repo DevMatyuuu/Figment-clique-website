@@ -2,7 +2,7 @@
 
 import useCartStore from '@/store/CartStore';
 import { Cart } from '@/types';
-import Image from 'next/image';
+import { CldImage } from 'next-cloudinary';
 import React, { useEffect, useState } from 'react'
 import { FiMinus, FiPlus, FiTrash2 } from 'react-icons/fi';
 
@@ -40,9 +40,9 @@ const CartItems = ({item} : cartItems) => {
   return (
     <>
     <div className='flex flex-col w-full h-auto'>
-      <div className='w-full flex py-5 px-5 rounded-xl gap-5 justify-around'>
-        <div className='flex flex-col items-center w-max'>
-          <Image src={item.image as string} alt={item.title} width={150} height={150} className='lg:h-32 h-40 lg:w-40 w-60'/>
+      <div className='w-full flex px-5 rounded-xl gap-5 justify-center items-center'>
+        <div className='flex flex-col items-center w-max h-max'>
+          <CldImage src={item.image as string} alt={item.title} width={150} height={150} className='lg:h-36 h-48 lg:w-32 w-36'/>
         </div>
         <div  className='flex justify-between w-[60%] px-5'>
           <div className='flex flex-col'>

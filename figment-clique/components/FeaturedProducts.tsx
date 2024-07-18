@@ -1,22 +1,22 @@
 'use client'
 
 import { useEffect, useState } from 'react'
-import Image from 'next/image';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useRouter } from 'next/navigation';
 import useFetchCatalog from '@/hooks/useFetchCatalog';
 import useFetchStocks from '@/hooks/useFetchStocks';
+import { CldImage } from 'next-cloudinary';
+
+useEffect(() => {
+  AOS.init();
+})
 
 const FeaturedProducts = () => { 
   const {data: catalogData, error: catalogError, isLoading: isCatalogLoading} = useFetchCatalog();
   const {data: stocksData, error: stocksError, isLoading: isStocksLoading} = useFetchStocks();
   const [hoveredId, setHoveredId] = useState<null | string>(null);
   const router = useRouter();
-
-  useEffect(() => {
-    AOS.init();
-  })
 
   const seeProduct = (title: string) => {
     router.push(`/catalog/${title}`)
@@ -41,39 +41,42 @@ const FeaturedProducts = () => {
 
             return(
             <>
-            <div className='relative flex flex-col'>
-              <div onClick={() => seeProduct(featured.title)} data-aos="fade-up" className='lg:hidden flex flex-col h-max w-full group hover:shadow-2xl lg:rounded-2xl rounded-lg cursor-pointer duration-400 transition-all'>
+            <div className='flex flex-col'>
+              <div onClick={() => seeProduct(featured.title)} data-aos="fade-up" data-aos-duration='3000' data-aos-once={true} className='lg:hidden flex flex-col h-max w-full group lg:rounded-2xl rounded-lg cursor-pointer duration-400 transition-all'>
                 <div className='h-full w-full rounded-t-lg overflow-hidden duration-500'>
-                  <Image src={featured.image} width="200" height="500" alt="tee" className='w-full h-[180px] ease-in-out transition-all duration-500' loading='lazy'/>
+                  <CldImage src={featured.image} width="200" height="500" alt="tee" className='w-full h-[200px] ease-in-out transition-all duration-500' loading='lazy'/>
                 </div>
                 <div className='flex flex-col text-center justify-center items-center gap-2 py-4 px-7 lg:px-0'>
                   <h2 className='text-xs lg:text-base'>{featured.title}</h2>
                   <span className='text-xs lg:text-sm text-black/50'>Figment Clique</span>
                   <span className='text-base lg:text-xl'>₱{featured.price}</span>
                 </div>
-              </div>
-              <div onClick={() => seeProduct(featured.title)} onMouseEnter={() => setHoveredId(featured.id)} onMouseLeave={() => setHoveredId(null)} key={featured.id} className='lg:flex flex-col hidden h-max w-full group hover:shadow-2xl lg:rounded-2xl rounded-lg cursor-pointer duration-400 transition-all'>
-                <div className='h-full w-full lg:rounded-t-2xl rounded-t-lg overflow-hidden duration-500'>
-                  {hoveredId === featured.id 
+                <div className='absolute top-1.5 left-2'>
+                  {isOutOfStock 
                   ? 
-                  <Image loading='lazy' src={featured.image2} alt="tee" width="500" height="500" className='w-full h-[500px] group-hover:scale-105 duration-500 object-cover ease-in-out transition-all' />
-                  :
-                  <Image loading='lazy' src={featured.image} alt="tee" width="500" height="500" className='w-full h-[500px] ease-in-out transition-all object-contain duration-500' />
+                    <span className='bg-black py-0.5 px-2 rounded-full text-white text-[8px]'>Out of Stock</span> 
+                  : 
+                    ''  
                   }
+                </div>
+              </div>
+              <div onClick={() => seeProduct(featured.title)} data-aos="fade-up" data-aos-duration='2000' data-aos-once={true} onMouseEnter={() => setHoveredId(featured.id)} onMouseLeave={() => setHoveredId(null)} key={featured.id} className='relative lg:flex flex-col hidden h-max w-full group hover:shadow-2xl lg:rounded-2xl rounded-lg cursor-pointer duration-400 transition-all'>
+                <div className='h-full w-full lg:rounded-t-2xl rounded-t-lg overflow-hidden duration-500'>
+                  <CldImage src={hoveredId === featured.id ? featured.image2 : featured.image} alt="tee" width="400" height="400" className='w-full h-[500px] group-hover:scale-105 duration-500 object-cover ease-in-out transition-all' />
                 </div>
                 <div className='flex flex-col text-center justify-center items-center gap-2 py-7 px-7 lg:px-0'>
                   <h2 className='text-xs lg:text-base'>{featured.title}</h2>
                   <span className='text-xs lg:text-sm text-black/80'>Figment Clique</span>
                   <span className='text-base lg:text-xl'>₱{featured.price}</span>
                 </div>
-              </div>
-              <div className='absolute lg:top-5 top-1.5 lg:left-5 left-2'>
-                {isOutOfStock 
-                ? 
-                  <span className='bg-black lg:py-1 py-0.5 lg:px-4 px-2 rounded-full text-white lg:text-base text-[8px]'>Out of Stock</span> 
-                : 
-                  ''  
-                }
+                <div className='absolute lg:top-5 lg:left-5'>
+                  {isOutOfStock 
+                  ? 
+                    <span className='bg-black lg:py-1 lg:px-4 rounded-full text-white lg:text-base'>Out of Stock</span> 
+                  : 
+                    ''  
+                  }
+                </div>
               </div>
             </div>
             </>
