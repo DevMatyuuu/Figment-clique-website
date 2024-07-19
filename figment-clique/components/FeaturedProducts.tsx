@@ -8,15 +8,15 @@ import useFetchCatalog from '@/hooks/useFetchCatalog';
 import useFetchStocks from '@/hooks/useFetchStocks';
 import { CldImage } from 'next-cloudinary';
 
-useEffect(() => {
-  AOS.init();
-})
-
 const FeaturedProducts = () => { 
   const {data: catalogData, error: catalogError, isLoading: isCatalogLoading} = useFetchCatalog();
   const {data: stocksData, error: stocksError, isLoading: isStocksLoading} = useFetchStocks();
   const [hoveredId, setHoveredId] = useState<null | string>(null);
   const router = useRouter();
+
+  useEffect(() => {
+    AOS.init();
+  })
 
   const seeProduct = (title: string) => {
     router.push(`/catalog/${title}`)

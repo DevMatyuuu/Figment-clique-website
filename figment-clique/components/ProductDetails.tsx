@@ -96,7 +96,7 @@ const ProductDetails = ({paramsTitle} : params) => {
               </SelectContent>
             </Select>
           </div>
-          <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen();}} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-white/60 hover:bg-white/60 hover:text-black' : ''} bg-white text-black mt-5 h-10 rounded-lg lg:w-[300px]  w-full hover:bg-white/70 hover:text-white duration-200`}>Add to cart</button>
+          <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen();}} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-white/60 hover:bg-white/60 hover:text-black' : 'hover:bg-white/70 hover:text-white'} bg-white text-black mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>Add to cart</button>
         </div>
         <div className='flex flex-col lg:w-[50%] w-full gap-10 mx-auto'>
           <div className='lg:w-full w-full lg:mx-0 mx-auto'>
