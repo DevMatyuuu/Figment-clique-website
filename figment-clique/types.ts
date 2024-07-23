@@ -6,7 +6,3 @@ export type Cart = {
   quantity: number;
   price: number;
 }
-
-export type Category = {
-  category: 'top' | 'bottom'
-}
