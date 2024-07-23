@@ -22,7 +22,7 @@ const SearchModal = () => {
 
   const SearchFilter = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
-    setResults(data?.filter(result => result.title.toLowerCase().includes(e.target.value)));
+    setResults(data?.filter(result => result.title.toLowerCase().includes(e.target.value.toLocaleLowerCase())));
   }
 
   const resultClicked = (title: string) => {

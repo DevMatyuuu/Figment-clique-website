@@ -20,6 +20,7 @@ import useFetchStocks from '@/hooks/useFetchStocks';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { CldImage } from 'next-cloudinary';
+import RelatedProducts from './RelatedProducts';
 
 
 
@@ -78,7 +79,7 @@ const ProductDetails = ({paramsTitle} : params) => {
         <TbArrowBackUp className='text-white'/>
         <div className='text-white'>Back</div>
       </Link>
-      <div className="text-white flex lg:flex-row flex-col-reverse gap-10">
+      <div className="text-white flex lg:flex-row flex-col-reverse gap-10 w-full">
         <div className='flex flex-col w-full lg:pt-10'>
           <h1 className='text-2xl lg:text-4xl'>{catalogItemData?.title}</h1>
           <div className='flex flex-row-reverse w-full justify-end my-5 items-center gap-10'>
@@ -127,6 +128,10 @@ const ProductDetails = ({paramsTitle} : params) => {
             </Swiper>
           </div>
         </div>
+      </div>
+      <div className='flex flex-col lg:gap-20 gap-10 mt-20'>
+        <span className='text-white text-4xl text-center lg:text-start'>Related Products</span>
+        <RelatedProducts decodedParams={decodedParams} catalogItemData={catalogItemData} />
       </div>
     </div>
   )

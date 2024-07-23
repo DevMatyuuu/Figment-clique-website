@@ -14,6 +14,7 @@ model catalog {
   image      String
   image2     String
   featured   Boolean   @default(false) 
+  category   String
 }
 
 model stocks {
