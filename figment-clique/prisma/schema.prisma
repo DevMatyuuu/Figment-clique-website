@@ -9,7 +9,7 @@ datasource db {
 
 model catalog {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  title      String
+  title      String    @unique
   price      Int
   image      String
   image2     String
@@ -19,7 +19,7 @@ model catalog {
 
 model stocks {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  catalogTitle String  
+  catalogTitle String  @unique
   small      Int
   medium     Int
   large      Int

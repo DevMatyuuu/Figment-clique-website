@@ -1,5 +1,3 @@
-'use client'
-
 import useFetchCatalog from '@/hooks/useFetchCatalog'
 import { catalog } from '@prisma/client'
 import { CldImage } from 'next-cloudinary'
