@@ -15,11 +15,13 @@ model catalog {
   image2     String
   featured   Boolean   @default(false) 
   category   String
+  stocks     stocks[]
 }
 
 model stocks {
   id         String    @id @default(auto()) @map("_id") @db.ObjectId
-  catalogTitle String  @unique
+  catalog    catalog   @relation(fields: [catalogId], references: [id])
+  catalogId  String    @db.ObjectId
   small      Int
   medium     Int
   large      Int

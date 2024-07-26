@@ -9,7 +9,7 @@ export async function GET() {
   try {
     const stocks = await prisma.stocks.findMany({
       select: {
-        catalogTitle: true,
+        catalogId: true,
         small: true,
         medium: true,
         large: true,

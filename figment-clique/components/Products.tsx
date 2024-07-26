@@ -31,7 +31,7 @@ const Products = () => {
       {catalogData?.map((item, index) => {
         const duration = (200 * index) + 400;
 
-        const stockEntry = stocksData?.find((stock) => stock.catalogTitle === item.title);
+        const stockEntry = stocksData?.find((stock) => stock.catalogId === item.id);
             const isOutOfStock = 
               stockEntry?.small as number === 0 &&
               stockEntry?.medium as number === 0 &&
@@ -40,7 +40,7 @@ const Products = () => {
               stockEntry?.xxl as number === 0
 
         return (
-          <Link href={`/catalog/${item.title}`} key={item.id} data-aos="fade-zoom-in" data-aos-once="true" data-aos-easing="ease-in-back" data-aos-duration={duration} className={`${item.image ? 'flex ' : 'hidden'} relative flex-col w-full justify-center items-center bg-white  text-black rounded-xl group cursor-pointer pb-4`}>
+          <Link href={`/catalog/${item.title}`} key={item.id} data-aos="fade-zoom-in" data-aos-once="true" data-aos-easing="ease-in-back" data-aos-duration={duration} className={`${item.image ? 'flex ' : 'hidden'} relative flex-col w-full justify-center bg-white  text-black rounded-xl group cursor-pointer pb-4`}>
             <CldImage src={item.image} alt={item.title} width="200" height='200' className="rounded-xl lg:w-[250px] py-10 lg:h-[300px] h-[220px] object-cover group-hover:scale-105 duration-500 cursor-pointer" />
             <h1 className="text-xs text-center lg:text-base z-40 group-hover:underline underline-offset-2 underline-black">
               {item.title}

@@ -31,7 +31,7 @@ const FeaturedProducts = () => {
         <h1 className="lg:text-3xl text-xl">Featured Tops</h1>
         <div className='relative grid grid-cols-2 lg:gap-10 gap-5 lg:py-10 py-10'>
           {catalogData.map((featured) => {
-            const stockEntry = stocksData?.find((stock) => stock.catalogTitle === featured.title);
+            const stockEntry = stocksData?.find((stock) => stock.catalogId === featured.id);
             const isOutOfStock = 
               stockEntry?.small as number === 0 &&
               stockEntry?.medium as number === 0 &&

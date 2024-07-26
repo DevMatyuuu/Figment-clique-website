@@ -15,7 +15,7 @@ export async function GET() {
                 image2: true,
                 price: true,
                 featured: true,
-                category: true
+                category: true,
             } 
         });
         return NextResponse.json(catalog);

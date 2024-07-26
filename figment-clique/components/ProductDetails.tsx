@@ -41,7 +41,7 @@ const ProductDetails = ({paramsTitle} : params) => {
   const decodedParams = decodeURIComponent(paramsTitle);
   
   const catalogItemData = catalogData?.find(item => item.title === decodedParams);
-  const catalogStocks = stocksData?.find(item => item.catalogTitle === decodedParams)
+  const catalogStocks = stocksData?.find(item => item.catalogId === catalogItemData?.id)
 
   const addToCartDisabled = !selectedSize
                             || catalogStocks?.small as number === 0 && selectedSize === 'Small' 
@@ -118,7 +118,6 @@ const ProductDetails = ({paramsTitle} : params) => {
               <SwiperSlide className='h-full my-auto' key={image.id}>
                 {image.image 
                 ?
-                
                 <CldImage src={image.image as string} alt={image.title as string} onClick={() => {setSelectedPreview(image.image as string); setIsClicked(image.id)}} width={150} height={100} className={`${isClicked === image.id ? 'border border-white/30 ' : ''} mx-auto cursor-pointer w-[120px] rounded-lg h-[100px] object-contain`}/> 
                 :
                 ''

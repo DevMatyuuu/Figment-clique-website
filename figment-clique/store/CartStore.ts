@@ -2,6 +2,9 @@ import { Cart } from '@/types';
 import { create } from 'zustand'
 import { v4 as uuidv4 } from 'uuid';
 import { createJSONStorage, persist } from 'zustand/middleware';
+import { PrismaClient } from '@prisma/client';
+
+const prisma = new PrismaClient();
 
 interface CartState {
   cart: Cart[],

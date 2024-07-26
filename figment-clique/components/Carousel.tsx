@@ -17,7 +17,7 @@ const Carousel = () => {
     const [swiper, setSwiper] = useState<SwiperCore| null>(null);
 
   return (
-    <div className='relative pt-[97px] lg:pt-[185px] '>
+    <div className='relative'>
         <Swiper
           onSwiper={setSwiper}
           slidesPerView={1}

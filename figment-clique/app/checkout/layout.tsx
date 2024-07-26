@@ -28,7 +28,7 @@ export default function RootLayout({
       <body className={`${inter.className} relative h-auto`}>
         <Provider>
           <Navbar />
-            <main className="bg-black font-poppins scroll-smooth pt-[97px] lg:pt-[200px] ">
+            <main className="bg-white text-black font-poppins scroll-smooth pt-[97px] lg:pt-[200px] ">
               {children}
             </main>
           <Footer />

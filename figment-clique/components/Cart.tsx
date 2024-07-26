@@ -49,7 +49,7 @@ const Cart = () => {
               </div>
             </div>
             <div className='flex flex-col gap-5 w-[80%]'>
-              <button className='w-full h-12 bg-white hover:bg-slate-500 hover:text-white text-black rounded-md duration-200'>Check Out</button>
+              <Link href={'/checkout'} className='flex justify-center items-center w-full h-12 bg-white hover:bg-slate-500 hover:text-white text-black rounded-md duration-200'>Check Out</Link>
               <button onClick={clearCart} className='w-full h-12 bg-white hover:bg-slate-500 hover:text-white text-black rounded-md duration-200'>Clear Cart</button>
             </div>
           </div>
