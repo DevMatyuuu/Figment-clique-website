@@ -1,4 +1,5 @@
 import CheckOutForm from '@/components/CheckOutForm'
+import CheckOutProducts from '@/components/CheckOutProducts'
 import React from 'react'
 
 export default function page() {
@@ -8,7 +9,7 @@ export default function page() {
         <CheckOutForm />
       </div>
       <div className='flex w-[50%]'>
-        <CheckOutForm />
+        <CheckOutProducts />
       </div>
     </div>
   )
