@@ -21,6 +21,7 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { CldImage } from 'next-cloudinary';
 import RelatedProducts from './RelatedProducts';
+import { useRouter } from 'next/navigation';
 
 
 
@@ -34,6 +35,12 @@ const ProductDetails = ({paramsTitle} : params) => {
   const [selectedPreview, setSelectedPreview] = useState('');
   const { setCartOpen } = useModalStore();
   const [isClicked, setIsClicked] = useState(1)
+
+  const router = useRouter();
+
+  const buyNow = (id: string | undefined) => {
+    router.push(`/checkout/buynow/${id}`)
+  }
 
   const { data: catalogData, error: catalogError, isLoading: isCatalogLoading} = useFetchCatalog();
   const {data: stocksData, error: stocksError, isLoading: isStocksLoading} = useFetchStocks()
@@ -74,7 +81,7 @@ const ProductDetails = ({paramsTitle} : params) => {
   ]
 
   return (
-    <div className={`${isCatalogLoading ? 'h-screen' : 'h-auto min-h-screen'} flex flex-col gap-10 container mx-auto max-w-[1070px] px-5 w-full lg:pt-60 lg:pb-20 py-28 lg:py-0`}>
+    <div className={`${isCatalogLoading ? 'h-screen' : 'h-auto min-h-screen'} flex flex-col gap-10 container mx-auto max-w-[1070px] px-5 w-full lg:pt-10 lg:pb-20 py-28 lg:py-0`}>
       <Link href={'/catalog'} onClick={() => setSelectedSize('')} className='flex items-center gap-2 text-lg cursor-pointer w-max'>
         <TbArrowBackUp className='text-white'/>
         <div className='text-white'>Back</div>
@@ -97,7 +104,16 @@ const ProductDetails = ({paramsTitle} : params) => {
               </SelectContent>
             </Select>
           </div>
+          <span className={`${addToCartDisabled ? 'block' : 'hidden'} text-[.8rem] text-red-500`}>
+            {!selectedSize
+            ?
+            <span>Pick a size first to add to cart and to buy now*</span>
+            :
+            <span>This item is out of stock</span>
+            }
+          </span>
           <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen();}} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-white/60 hover:bg-white/60 hover:text-black' : 'hover:bg-white/70 hover:text-white'} bg-white text-black mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>Add to cart</button>
+          <button onClick={() => buyNow(catalogItemData?.id)} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-red-500/60 text-white/70 hover:bg-red-500/60 hover:text-white/70' : 'hover:bg-red-600 hover:text-white'} bg-red-500 text-white mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>Buy Now</button>
         </div>
         <div className='flex flex-col lg:w-[50%] w-full gap-10 mx-auto'>
           <div className='lg:w-full w-full lg:mx-0 mx-auto'>

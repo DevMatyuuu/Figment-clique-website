@@ -42,7 +42,7 @@ const FeaturedProducts = () => {
             return(
             <>
             <div className='flex flex-col'>
-              <div onClick={() => seeProduct(featured.title)} data-aos="fade-up" data-aos-duration='3000' data-aos-once={true} className='lg:hidden flex flex-col h-max w-full group lg:rounded-2xl rounded-lg cursor-pointer duration-400 transition-all'>
+              <div onClick={() => seeProduct(featured.title)} data-aos="fade-up" data-aos-duration='4000' data-aos-once={true} className='lg:hidden flex flex-col h-max w-full group lg:rounded-2xl rounded-lg cursor-pointer duration-400 transition-all'>
                 <div className='h-full w-full rounded-t-lg overflow-hidden duration-500'>
                   <CldImage src={featured.image} width="200" height="500" alt="tee" className='w-full h-[200px] ease-in-out transition-all duration-500' loading='lazy'/>
                 </div>
@@ -60,7 +60,7 @@ const FeaturedProducts = () => {
                   }
                 </div>
               </div>
-              <div onClick={() => seeProduct(featured.title)} data-aos="fade-up" data-aos-duration='2000' data-aos-once={true} onMouseEnter={() => setHoveredId(featured.id)} onMouseLeave={() => setHoveredId(null)} key={featured.id} className='relative lg:flex flex-col hidden h-max w-full group hover:shadow-2xl lg:rounded-2xl rounded-lg cursor-pointer duration-400 transition-all'>
+              <div onClick={() => seeProduct(featured.title)} data-aos="fade-up" data-aos-duration='3000' data-aos-once={true} onMouseEnter={() => setHoveredId(featured.id)} onMouseLeave={() => setHoveredId(null)} key={featured.id} className='relative lg:flex flex-col hidden h-max w-full group hover:shadow-2xl lg:rounded-2xl rounded-lg cursor-pointer duration-400 transition-all'>
                 <div className='h-full w-full lg:rounded-t-2xl rounded-t-lg overflow-hidden duration-500'>
                   <CldImage src={hoveredId === featured.id ? featured.image2 : featured.image} alt="tee" width="400" height="400" className='w-full h-[500px] group-hover:scale-105 duration-500 object-cover ease-in-out transition-all' />
                 </div>

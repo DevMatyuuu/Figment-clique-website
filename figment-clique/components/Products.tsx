@@ -3,32 +3,25 @@
 import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import useFetchCatalog from '@/hooks/useFetchCatalog';
 import useFetchStocks from '@/hooks/useFetchStocks';
 import Link from 'next/link';
 import { CldImage } from 'next-cloudinary';
+import { catalog } from '@prisma/client';
 
-const Products = () => {
-  const { data: catalogData, error: catalogError, isLoading: isCatalogLoading} = useFetchCatalog();
+interface productsProps {
+  catalog: Array<catalog> | undefined
+}
+
+const Products = ({catalog}: productsProps) => {
   const {data: stocksData, error: stocksError, isLoading: isStocksLoading} = useFetchStocks()
 
   useEffect(() => {
     AOS.init();
   })
 
-  if (catalogError) return <div>{catalogError.message}</div>
-
-  if (isCatalogLoading) {
-    return (
-      <div className='h-screen bg-black'>
-        <p className='text-white'>loading...</p>
-      </div>
-    )
-  }
-
   return (
     <div className='grid grid-cols-2 lg:grid-cols-4 w-full gap-4'>
-      {catalogData?.map((item, index) => {
+      {catalog?.map((item, index) => {
         const duration = (200 * index) + 400;
 
         const stockEntry = stocksData?.find((stock) => stock.catalogId === item.id);
