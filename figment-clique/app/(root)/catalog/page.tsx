@@ -1,7 +1,5 @@
 import { Metadata } from "next";
 import Products from "@/components/Products";
-import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
-import axios from "axios";
 import { getCatalog } from "@/actions/getCatalog";
 import CatalogPaginationControls from "@/components/CatalogPaginationControls";
 
@@ -32,7 +30,7 @@ export default async function Catalog({
     <div className='flex flex-col container mx-auto h-auto max-w-[1070px] pt-[130px] lg:pt-14 px-5 py-20 gap-10'>
       <h1 className="text-white text-4xl">Catalog</h1>
        <Products catalog={entries} />
-       <CatalogPaginationControls hasNextPage={data && end < data.length} hasPrevPage={start > 0}/>
+       <CatalogPaginationControls hasNextPage={data && end < data?.length} hasPrevPage={start > 0}/>
     </div>
   );
 }

@@ -4,7 +4,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import React from 'react'
 
 interface PaginationControlsProps {
-  hasNextPage: boolean
+  hasNextPage: boolean | undefined
   hasPrevPage: boolean
 }
 
