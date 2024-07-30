@@ -1,6 +1,6 @@
+import { getCatalog } from '@/actions/getCatalog';
 import BuyNowProducts from '@/components/BuyNowProducts';
 import CheckOutForm from '@/components/CheckOutForm';
-import CheckOutProducts from '@/components/CheckOutProducts';
 import React from 'react'
 
 interface ParamsProp {
@@ -9,9 +9,9 @@ interface ParamsProp {
   };
 }
 
-export default function page({params} : ParamsProp) {
+export default async function page({params} : ParamsProp) {
+  const { catalog } = await getCatalog();
   const paramsId = params.id;
-  console.log(paramsId)
 
   return (
     <div className='flex container mx-auto max-w-[1070px] px-5 gap-20'>
@@ -19,7 +19,7 @@ export default function page({params} : ParamsProp) {
         <CheckOutForm />
       </div>
       <div className='flex w-[50%]'>
-        <BuyNowProducts paramsId={paramsId}/>
+        <BuyNowProducts paramsId={paramsId} catalog={catalog}/>
       </div>
     </div>
   )

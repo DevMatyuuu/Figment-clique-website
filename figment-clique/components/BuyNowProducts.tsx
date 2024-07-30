@@ -1,17 +1,17 @@
 'use client'
 
-import useFetchCatalog from '@/hooks/useFetchCatalog';
+import { catalog } from '@prisma/client';
 import { CldImage } from 'next-cloudinary';
 import React from 'react'
 
 interface paramsProp {
   paramsId: string
+  catalog: Array<catalog> | undefined
 }
 
-export default function BuyNowProducts({paramsId}: paramsProp) {
-  const { data, error, isLoading } = useFetchCatalog();
+export default function BuyNowProducts({paramsId, catalog}: paramsProp) {
 
-  const specificProduct = data?.find(item => item.id === paramsId);
+  const specificProduct = catalog?.find(item => item.id === paramsId);
 
   return (
     <div className='w-full pt-10'>

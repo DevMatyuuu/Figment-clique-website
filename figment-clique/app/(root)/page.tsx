@@ -1,3 +1,5 @@
+import { getCatalog } from "@/actions/getCatalog";
+import { getStocks } from "@/actions/getStocks";
 import Carousel from "@/components/Carousel";
 import dynamic from "next/dynamic";
 
@@ -7,10 +9,13 @@ const FeaturedProducts = dynamic(() => import("@/components/FeaturedProducts"), 
 
 export default async function Home() {
 
+  const { catalog } = await getCatalog();
+  const { stocks } = await getStocks();
+
   return (
     <>
       <Carousel />
-      <FeaturedProducts />
+      <FeaturedProducts catalog={catalog} stocks={stocks} />
     </>
   );
 }

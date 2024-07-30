@@ -18,7 +18,7 @@ export const getCatalog = async () => {
       }
     })
 
-    return { data }
+    return { catalog: data }
   } catch (error) {
     return { error: 'could not fetch data'}
   }

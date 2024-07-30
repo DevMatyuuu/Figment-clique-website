@@ -15,22 +15,23 @@ import useCartStore from '@/store/CartStore';
 import Image from 'next/image';
 import { TbArrowBackUp } from "react-icons/tb";
 import Link from 'next/link';
-import useFetchCatalog from '@/hooks/useFetchCatalog';
-import useFetchStocks from '@/hooks/useFetchStocks';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
 import { CldImage } from 'next-cloudinary';
 import RelatedProducts from './RelatedProducts';
 import { useRouter } from 'next/navigation';
+import { catalog, stocks } from '@prisma/client';
 
 
 
 interface params {
   paramsTitle: string
+  catalog: Array<catalog> | undefined
+  stocks: Array<stocks> | undefined
 }
 
 
-const ProductDetails = ({paramsTitle} : params) => {
+const ProductDetails = ({paramsTitle, catalog, stocks} : params) => {
   const { addToCart, setSelectedSize, selectedSize } = useCartStore();
   const [selectedPreview, setSelectedPreview] = useState('');
   const { setCartOpen } = useModalStore();
@@ -42,13 +43,10 @@ const ProductDetails = ({paramsTitle} : params) => {
     router.push(`/checkout/buynow/${id}`)
   }
 
-  const { data: catalogData, error: catalogError, isLoading: isCatalogLoading} = useFetchCatalog();
-  const {data: stocksData, error: stocksError, isLoading: isStocksLoading} = useFetchStocks()
-
   const decodedParams = decodeURIComponent(paramsTitle);
   
-  const catalogItemData = catalogData?.find(item => item.title === decodedParams);
-  const catalogStocks = stocksData?.find(item => item.catalogId === catalogItemData?.id)
+  const catalogItemData = catalog?.find(item => item.title === decodedParams);
+  const catalogStocks = stocks?.find(item => item.catalogId === catalogItemData?.id)
 
   const addToCartDisabled = !selectedSize
                             || catalogStocks?.small as number === 0 && selectedSize === 'Small' 
@@ -81,7 +79,7 @@ const ProductDetails = ({paramsTitle} : params) => {
   ]
 
   return (
-    <div className={`${isCatalogLoading ? 'h-screen' : 'h-auto min-h-screen'} flex flex-col gap-10 container mx-auto max-w-[1070px] px-5 w-full lg:pt-10 lg:pb-20 py-28 lg:py-0`}>
+    <div className={`${!catalog ? 'h-screen' : 'h-auto min-h-screen'} flex flex-col gap-10 container mx-auto max-w-[1070px] px-5 w-full lg:pt-10 lg:pb-20 py-10 lg:py-0`}>
       <Link href={'/catalog'} onClick={() => setSelectedSize('')} className='flex items-center gap-2 text-lg cursor-pointer w-max'>
         <TbArrowBackUp className='text-white'/>
         <div className='text-white'>Back</div>
@@ -116,7 +114,7 @@ const ProductDetails = ({paramsTitle} : params) => {
           <button onClick={() => buyNow(catalogItemData?.id)} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-red-500/60 text-white/70 hover:bg-red-500/60 hover:text-white/70' : 'hover:bg-red-600 hover:text-white'} bg-red-500 text-white mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>Buy Now</button>
         </div>
         <div className='flex flex-col lg:w-[50%] w-full gap-10 mx-auto'>
-          <div className='lg:w-full w-full lg:mx-0 mx-auto'>
+          <div className='lg:w-full w-[80%] lg:mx-0 mx-auto'>
             {catalogItemData?.image 
             ? 
             <CldImage src={selectedPreview ? selectedPreview : catalogItemData.image} alt={catalogItemData?.title as string} width={600} height={400} className='h-full w-full lg:w-full rounded-lg bg-white' />
@@ -144,9 +142,9 @@ const ProductDetails = ({paramsTitle} : params) => {
           </div>
         </div>
       </div>
-      <div className='flex flex-col lg:gap-20 gap-10 mt-20'>
+      <div className='flex flex-col lg:gap-20 gap-10 mt-16'>
         <span className='text-white text-4xl text-center lg:text-start'>Related Products</span>
-        <RelatedProducts decodedParams={decodedParams} catalogItemData={catalogItemData} />
+        <RelatedProducts decodedParams={decodedParams} catalogItemData={catalogItemData} catalog={catalog} />
       </div>
     </div>
   )

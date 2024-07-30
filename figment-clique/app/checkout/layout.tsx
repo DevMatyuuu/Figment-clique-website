@@ -4,7 +4,6 @@ import "../globals.css";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Cart from "@/components/Cart";
-import SearchModal from "@/components/SearchModal";
 import Provider from "@/lib/TanstackProvider";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -28,12 +27,11 @@ export default function RootLayout({
       <body className={`${inter.className} relative h-auto`}>
         <Provider>
           <Navbar />
-            <main className="bg-white text-black font-poppins scroll-smooth pt-[97px] lg:pt-[200px] ">
+            <main className="bg-white text-black font-poppins scroll-smooth pt-[97px] lg:pt-[200px]">
               {children}
             </main>
           <Footer />
           <Cart />
-          <SearchModal />
         </Provider>
       </body>
     </html>

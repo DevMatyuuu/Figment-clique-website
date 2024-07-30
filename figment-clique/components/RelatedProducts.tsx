@@ -1,4 +1,3 @@
-import useFetchCatalog from '@/hooks/useFetchCatalog'
 import { catalog } from '@prisma/client'
 import { CldImage } from 'next-cloudinary'
 import Link from 'next/link'
@@ -11,12 +10,12 @@ import 'swiper/css/pagination';
 interface relatedProductProps {
   decodedParams: string
   catalogItemData: catalog | undefined
+  catalog: Array<catalog> | undefined
 }
 
-const RelatedProducts = ({decodedParams, catalogItemData}: relatedProductProps) => {
-  const { data, error, isLoading } = useFetchCatalog();
+const RelatedProducts = ({decodedParams, catalogItemData, catalog}: relatedProductProps) => {
 
-  const relatedProducts = data?.filter(item => item.category === catalogItemData?.category)
+  const relatedProducts = catalog?.filter(item => item.category === catalogItemData?.category )
                                .filter(item => item.title !== decodedParams)
   
   const shuffledRelatedProducts = relatedProducts?.map(value => ({ value, sort: Math.random()}))

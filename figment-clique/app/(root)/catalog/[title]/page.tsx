@@ -1,3 +1,5 @@
+import { getCatalog } from '@/actions/getCatalog';
+import { getStocks } from '@/actions/getStocks';
 import ProductDetails from '@/components/ProductDetails';
 import { Metadata } from 'next';
 import React from 'react'
@@ -16,13 +18,15 @@ interface Params {
   };
 }
 
-const page = ({ params }: Params) => {
+const page = async ({ params }: Params) => {
+  const { catalog } = await getCatalog();
+  const { stocks } = await getStocks();
 
   const paramsTitle = params.title
 
   return (
     <div>
-      <ProductDetails paramsTitle = {paramsTitle} />
+      <ProductDetails paramsTitle = {paramsTitle} catalog={catalog} stocks={stocks} />
     </div>
   )
 }

@@ -4,13 +4,15 @@ import { useEffect, useState } from 'react'
 import AOS from 'aos';
 import 'aos/dist/aos.css';
 import { useRouter } from 'next/navigation';
-import useFetchCatalog from '@/hooks/useFetchCatalog';
-import useFetchStocks from '@/hooks/useFetchStocks';
 import { CldImage } from 'next-cloudinary';
+import { catalog, stocks } from '@prisma/client';
 
-const FeaturedProducts = () => { 
-  const {data: catalogData, error: catalogError, isLoading: isCatalogLoading} = useFetchCatalog();
-  const {data: stocksData, error: stocksError, isLoading: isStocksLoading} = useFetchStocks();
+interface FeaturedProductProps {
+  catalog: Array<catalog> | undefined
+  stocks: Array<stocks> | undefined
+}
+
+const FeaturedProducts = ({catalog, stocks}: FeaturedProductProps) => { 
   const [hoveredId, setHoveredId] = useState<null | string>(null);
   const router = useRouter();
 
@@ -22,16 +24,16 @@ const FeaturedProducts = () => {
     router.push(`/catalog/${title}`)
   }
 
-  if (isCatalogLoading) return <p>Loading...</p>;
-  if (!catalogData || catalogData.length === 0) return <p>No catalog data available</p>;
+  if (!catalog) return <p>Loading...</p>;
+  if (catalog?.length === 0) return <p className='text-white'>No catalog data available</p>;
 
   return (
     <div className="w-full bg-white pt-10 h-auto z-50">
       <div className="text-black flex flex-col container mx-auto max-w-[1070px] px-5">
         <h1 className="lg:text-3xl text-xl">Featured Tops</h1>
         <div className='relative grid grid-cols-2 lg:gap-10 gap-5 lg:py-10 py-10'>
-          {catalogData.map((featured) => {
-            const stockEntry = stocksData?.find((stock) => stock.catalogId === featured.id);
+          {catalog?.map((featured) => {
+            const stockEntry = stocks?.find((stock) => stock.catalogId === featured.id);
             const isOutOfStock = 
               stockEntry?.small as number === 0 &&
               stockEntry?.medium as number === 0 &&

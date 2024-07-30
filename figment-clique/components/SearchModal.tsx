@@ -3,16 +3,18 @@
 import useModalStore from '@/store/ModalStore'
 import { IoClose } from 'react-icons/io5'
 import SearchInput from './SearchInput'
-import useFetchCatalog from '@/hooks/useFetchCatalog'
 import { ChangeEvent, KeyboardEvent, useState } from 'react'
 import { catalog } from '@prisma/client'
 import { CldImage } from 'next-cloudinary'
 import { useRouter } from 'next/navigation'
 
-const SearchModal = () => {
+interface SearchModalProps{
+  catalog: Array<catalog> | undefined
+}
+
+const SearchModal = ({catalog}: SearchModalProps) => {
   const { isSearchModalOpen, setSearchModalClose } = useModalStore();
   const [ results, setResults ] = useState<Array<catalog> | undefined>([]) 
-  const { data, error, isLoading } = useFetchCatalog();
   const [searchValue, setSearchValue] = useState('')
   const [selectedResult, setSelectedResult] = useState(-1)
 
@@ -22,7 +24,7 @@ const SearchModal = () => {
 
   const SearchFilter = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value)
-    setResults(data?.filter(result => result.title.toLowerCase().includes(e.target.value.toLocaleLowerCase())));
+    setResults(catalog?.filter(result => result.title.toLowerCase().includes(e.target.value.toLocaleLowerCase())));
   }
 
   const resultClicked = (title: string) => {
@@ -55,7 +57,7 @@ const SearchModal = () => {
           <div className='relative'>
           {searchValue && 
             <div className='absolute top-1 flex flex-col bg-black z-50 w-full lg:w-[95%] px-4 py-4 h-auto rounded-lg lg:border-2 border-white/40'>
-              {resultData.length > 0
+              {resultData?.length > 0
               ?
               <>
                 {results?.map((item, index) => (

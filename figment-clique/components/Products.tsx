@@ -3,17 +3,16 @@
 import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import useFetchStocks from '@/hooks/useFetchStocks';
 import Link from 'next/link';
 import { CldImage } from 'next-cloudinary';
-import { catalog } from '@prisma/client';
+import { catalog, stocks } from '@prisma/client';
 
 interface productsProps {
   catalog: Array<catalog> | undefined
+  stocks: Array<stocks> | undefined
 }
 
-const Products = ({catalog}: productsProps) => {
-  const {data: stocksData, error: stocksError, isLoading: isStocksLoading} = useFetchStocks()
+const Products = ({catalog, stocks}: productsProps) => {
 
   useEffect(() => {
     AOS.init();
@@ -24,7 +23,7 @@ const Products = ({catalog}: productsProps) => {
       {catalog?.map((item, index) => {
         const duration = (200 * index) + 400;
 
-        const stockEntry = stocksData?.find((stock) => stock.catalogId === item.id);
+        const stockEntry = stocks?.find((stock) => stock.catalogId === item.id);
             const isOutOfStock = 
               stockEntry?.small as number === 0 &&
               stockEntry?.medium as number === 0 &&
@@ -33,7 +32,7 @@ const Products = ({catalog}: productsProps) => {
               stockEntry?.xxl as number === 0
 
         return (
-          <Link href={`/catalog/${item.title}`} key={item.id} data-aos="fade-zoom-in" data-aos-once="true" data-aos-easing="ease-in-back" data-aos-duration={duration} className={`${item.image ? 'flex ' : 'hidden'} relative flex-col w-full justify-center bg-white  text-black rounded-xl group cursor-pointer pb-4`}>
+          <Link href={`/catalog/${item.title}`} key={item.id} data-aos="fade-zoom-in" data-aos-once="true" data-aos-easing="ease-in-back" data-aos-duration={duration} className={`${item.image ? 'flex ' : 'hidden'} relative h-max flex-col w-full justify-center items-center bg-white  text-black rounded-xl group cursor-pointer pb-4`}>
             <CldImage src={item.image} alt={item.title} width="200" height='200' className="rounded-xl lg:w-[250px] py-10 lg:h-[300px] h-[220px] object-cover group-hover:scale-105 duration-500 cursor-pointer" />
             <h1 className="text-xs text-center lg:text-base z-40 group-hover:underline underline-offset-2 underline-black mb-3">
               {item.title}

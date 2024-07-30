@@ -14,7 +14,7 @@ export default function CheckOutProducts() {
         <div className='flex w-full justify-between items-center'>
             <div className='flex justify-between relative w-full'>
               <div className='flex items-start gap-5'>
-                <CldImage src={item.image} alt={item.title} width={100} height={80} className='border border-black/10 lg:h-24 lg:w-20'/>
+                <CldImage src={item.image} alt={item.title} width={100} height={80} className='border border-black/10 rounded-lg lg:h-24 lg:w-20'/>
                 <div className='flex flex-col gap-2'>
                   <span className='text-sm mt-5 w-36'>{item.title}</span>
                   <span className='text-sm w-36'>{item.size}</span>
