@@ -1,14 +1,12 @@
 'use client'
 
 import { useRouter, useSearchParams } from 'next/navigation'
-import React, { useState } from 'react'
+import React from 'react'
 import {
   Pagination,
   PaginationContent,
   PaginationItem,
   PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
 } from "@/components/ui/pagination"
 import { catalog } from '@prisma/client'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
