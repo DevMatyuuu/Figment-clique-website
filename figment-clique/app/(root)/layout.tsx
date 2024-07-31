@@ -31,7 +31,7 @@ export default async function RootLayout({
       <body className={`${inter.className} relative h-auto bg-black`}>
         <Provider>
           <Navbar />
-            <main className="bg-black font-poppins scroll-smooth pt-[100px] lg:pt-[200px]">
+            <main className="bg-black font-poppins scroll-smooth pt-[80px] lg:pt-[200px]">
               {children}
             </main>
           <Footer />

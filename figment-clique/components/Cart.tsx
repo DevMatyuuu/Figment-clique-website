@@ -2,13 +2,22 @@
 
 import useCartStore from '@/store/CartStore';
 import useModalStore from '@/store/ModalStore';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import CartItems from './CartItems';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 const Cart = () => {
   const { isCartOpen, setCartClose } = useModalStore();
   const { cart, total, clearCart, setTotal } = useCartStore();
+  const [ isCheckoutLoading, setIsCheckoutLoading ] = useState(false);
+
+  const router = useRouter();
+
+  const handleCheckOut = () => {
+    router.push('/checkout')
+    setIsCheckoutLoading(true)
+  }
 
   useEffect(() => {
     const total = cart.reduce((a, c) => {
@@ -49,7 +58,9 @@ const Cart = () => {
               </div>
             </div>
             <div className='flex flex-col gap-5 w-[80%]'>
-              <Link href={'/checkout'} className='flex justify-center items-center w-full h-12 bg-white hover:bg-slate-500 hover:text-white text-black rounded-md duration-200'>Check Out</Link>
+              <button onClick={handleCheckOut} className='flex justify-center items-center w-full h-12 bg-white hover:bg-slate-500 hover:text-white text-black rounded-md duration-200'>
+                {isCheckoutLoading ? <span>Loading...</span> : <span>Checkout</span>}
+              </button>
               <button onClick={clearCart} className='w-full h-12 bg-white hover:bg-slate-500 hover:text-white text-black rounded-md duration-200'>Clear Cart</button>
             </div>
           </div>

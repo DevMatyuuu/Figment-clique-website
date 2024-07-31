@@ -3,24 +3,47 @@
 import React, { useEffect } from 'react';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import Link from 'next/link';
 import { CldImage } from 'next-cloudinary';
-import { catalog, stocks } from '@prisma/client';
+import { stocks } from '@prisma/client';
+import { useQuery } from '@tanstack/react-query';
+import { getCatalog } from '@/actions/getCatalog';
+import CatalogPaginationControls from './CatalogPaginationControls';
+import { useRouter, useSearchParams } from 'next/navigation';
+import Link from 'next/link';
 
 interface productsProps {
-  catalog: Array<catalog> | undefined
   stocks: Array<stocks> | undefined
 }
 
-const Products = ({catalog, stocks}: productsProps) => {
+const Products = ({stocks}: productsProps) => {
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['catalog'],
+    queryFn: getCatalog,
+    refetchOnMount: false,
+    refetchOnReconnect: false
+  })
 
   useEffect(() => {
     AOS.init();
   })
 
+  const router = useRouter();
+
+  const searchParams = useSearchParams();
+
+  const page = searchParams.get('page') ?? '1'
+  const per_page = searchParams.get('per_page') ?? '8'
+
+  const start = (Number(page) - 1) * Number(per_page)
+  const end = start + Number(per_page) 
+
+  const entries = data?.catalog?.slice(start, end)
+
   return (
+    <>
     <div className='grid grid-cols-2 lg:grid-cols-4 w-full gap-4'>
-      {catalog?.map((item, index) => {
+      {entries?.map((item, index) => {
         const duration = (200 * index) + 400;
 
         const stockEntry = stocks?.find((stock) => stock.catalogId === item.id);
@@ -32,7 +55,7 @@ const Products = ({catalog, stocks}: productsProps) => {
               stockEntry?.xxl as number === 0
 
         return (
-          <Link href={`/catalog/${item.title}`} key={item.id} data-aos="fade-zoom-in" data-aos-once="true" data-aos-easing="ease-in-back" data-aos-duration={duration} className={`${item.image ? 'flex ' : 'hidden'} relative h-max flex-col w-full justify-center items-center bg-white  text-black rounded-xl group cursor-pointer pb-4`}>
+          <Link href={`/catalog/${item.title}`} prefetch={true} key={item.id} data-aos="fade-zoom-in" data-aos-once="true" data-aos-easing="ease-in-back" data-aos-duration={duration} className={`${item.image ? 'flex ' : 'hidden'} relative h-max flex-col w-full justify-center items-center bg-white  text-black rounded-xl group cursor-pointer pb-4`}>
             <CldImage src={item.image} alt={item.title} width="200" height='200' className="rounded-xl lg:w-[250px] py-10 lg:h-[300px] h-[220px] object-cover group-hover:scale-105 duration-500 cursor-pointer" />
             <h1 className="text-xs text-center lg:text-base z-40 group-hover:underline underline-offset-2 underline-black mb-3">
               {item.title}
@@ -52,6 +75,8 @@ const Products = ({catalog, stocks}: productsProps) => {
         )
       })}
     </div>
+    <CatalogPaginationControls hasNextPage={data?.catalog && end < data?.catalog.length} hasPrevPage={start > 0} />
+    </>
   );
 };
 

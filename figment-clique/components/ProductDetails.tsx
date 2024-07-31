@@ -20,32 +20,42 @@ import 'swiper/css';
 import { CldImage } from 'next-cloudinary';
 import RelatedProducts from './RelatedProducts';
 import { useRouter } from 'next/navigation';
-import { catalog, stocks } from '@prisma/client';
+import { stocks } from '@prisma/client';
+import { getCatalog } from '@/actions/getCatalog';
+import { useQuery } from '@tanstack/react-query';
 
 
 
 interface params {
   paramsTitle: string
-  catalog: Array<catalog> | undefined
   stocks: Array<stocks> | undefined
 }
 
 
-const ProductDetails = ({paramsTitle, catalog, stocks} : params) => {
+const ProductDetails = ({paramsTitle, stocks} : params) => {
   const { addToCart, setSelectedSize, selectedSize } = useCartStore();
   const [selectedPreview, setSelectedPreview] = useState('');
   const { setCartOpen } = useModalStore();
   const [isClicked, setIsClicked] = useState(1)
+  const [isBuyNowLoading, setIsBuyNowLoading] = useState(false)
+
+  const { data, error, isLoading } = useQuery({
+    queryKey: ['catalog'],
+    queryFn: getCatalog,
+    refetchOnMount: false,
+    refetchOnReconnect: false
+  })
 
   const router = useRouter();
 
   const buyNow = (id: string | undefined) => {
     router.push(`/checkout/buynow/${id}`)
+    setIsBuyNowLoading(true)
   }
 
   const decodedParams = decodeURIComponent(paramsTitle);
   
-  const catalogItemData = catalog?.find(item => item.title === decodedParams);
+  const catalogItemData = data?.catalog?.find(item => item.title === decodedParams);
   const catalogStocks = stocks?.find(item => item.catalogId === catalogItemData?.id)
 
   const addToCartDisabled = !selectedSize
@@ -79,7 +89,7 @@ const ProductDetails = ({paramsTitle, catalog, stocks} : params) => {
   ]
 
   return (
-    <div className={`${!catalog ? 'h-screen' : 'h-auto min-h-screen'} flex flex-col gap-10 container mx-auto max-w-[1070px] px-5 w-full lg:pt-10 lg:pb-20 py-10 lg:py-0`}>
+    <div className={`${!isLoading ? 'h-screen' : 'h-auto min-h-screen'} flex flex-col gap-10 container mx-auto max-w-[1070px] px-5 w-full lg:pt-10 lg:pb-20 py-10 lg:py-0`}>
       <Link href={'/catalog'} onClick={() => setSelectedSize('')} className='flex items-center gap-2 text-lg cursor-pointer w-max'>
         <TbArrowBackUp className='text-white'/>
         <div className='text-white'>Back</div>
@@ -114,7 +124,9 @@ const ProductDetails = ({paramsTitle, catalog, stocks} : params) => {
             
           </div>
           <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen();}} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-white/60 hover:bg-white/60 hover:text-black' : 'hover:bg-white/70 hover:text-white'} bg-white text-black mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>Add to cart</button>
-          <button onClick={() => buyNow(catalogItemData?.id)} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-red-500/60 text-white/70 hover:bg-red-500/60 hover:text-white/70' : 'hover:bg-red-600 hover:text-white'} bg-red-500 text-white mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>Buy Now</button>
+          <button onClick={() => buyNow(catalogItemData?.id)} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-red-500/60 text-white/70 hover:bg-red-500/60 hover:text-white/70' : 'hover:bg-red-600 hover:text-white'} bg-red-500 text-white mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>
+            {isBuyNowLoading ? <span>Loading</span> : <span>Buy Now</span>}
+          </button>
         </div>
         <div className='flex flex-col lg:w-[50%] w-full gap-10 mx-auto'>
           <div className='lg:w-full w-[80%] lg:mx-0 mx-auto'>
@@ -147,7 +159,7 @@ const ProductDetails = ({paramsTitle, catalog, stocks} : params) => {
       </div>
       <div className='flex flex-col lg:gap-20 gap-10 mt-16'>
         <span className='text-white text-4xl text-center lg:text-start'>Related Products</span>
-        <RelatedProducts decodedParams={decodedParams} catalogItemData={catalogItemData} catalog={catalog} />
+        <RelatedProducts decodedParams={decodedParams} catalogItemData={catalogItemData}/>
       </div>
     </div>
   )

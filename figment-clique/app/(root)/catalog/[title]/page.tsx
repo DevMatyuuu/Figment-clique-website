@@ -1,6 +1,7 @@
 import { getCatalog } from '@/actions/getCatalog';
 import { getStocks } from '@/actions/getStocks';
 import ProductDetails from '@/components/ProductDetails';
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Metadata } from 'next';
 import React from 'react'
 
@@ -19,14 +20,21 @@ interface Params {
 }
 
 const page = async ({ params }: Params) => {
-  const { catalog } = await getCatalog();
+  const queryClient = new QueryClient();
+  await queryClient.prefetchQuery({
+    queryKey: ['catalog'],
+    queryFn: getCatalog
+  })
+  
   const { stocks } = await getStocks();
 
   const paramsTitle = params.title
 
   return (
     <div>
-      <ProductDetails paramsTitle = {paramsTitle} catalog={catalog} stocks={stocks} />
+      <HydrationBoundary state={dehydrate(queryClient)}>
+        <ProductDetails paramsTitle = {paramsTitle} stocks={stocks} />
+      </HydrationBoundary>
     </div>
   )
 }

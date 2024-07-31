@@ -70,7 +70,7 @@ const Navbar = () => {
               <path d="M19.5156 6.21877L16.3822 3.08533C16.2741 2.97817 16.146 2.89339 16.0051 2.83585C15.8643 2.77831 15.7134 2.74914 15.5612 2.75002H8.43875C8.28658 2.74914 8.13574 2.77831 7.99486 2.83585C7.85399 2.89339 7.72586 2.97817 7.61782 3.08533L4.48438 6.21877H19.5156Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
               <path d="M8.53126 9.68752L8.8897 10.3928C9.12882 10.8754 9.49801 11.2816 9.95564 11.5655C10.4133 11.8495 10.9411 12 11.4797 12H12.5203C13.0589 12 13.5867 11.8495 14.0444 11.5655C14.502 11.2816 14.8712 10.8754 15.1103 10.3928L15.4688 9.68752" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
             </svg>
-            <div className={`${itemsTotalQty === 0 ? 'hidden' : 'block'} flex justify-center items-center absolute right-0 h-5 top-3 text-black px-1 rounded-full bg-white`}>
+            <div className={`${itemsTotalQty === 0 ? 'hidden' : 'block'} flex justify-center items-center absolute right-0 lg:h-5 h-4 top-3 text-black px-1 rounded-full bg-white`}>
                 <span className='text-[11px]'>{itemsTotalQty}</span>
             </div>
           </div>

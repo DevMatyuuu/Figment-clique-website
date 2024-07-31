@@ -17,7 +17,7 @@ const Carousel = () => {
     const [swiper, setSwiper] = useState<SwiperCore| null>(null);
 
   return (
-    <div className='relative'>
+    <div className='relative pt-7 lg:pt-0'>
         <Swiper
           onSwiper={setSwiper}
           slidesPerView={1}
@@ -31,10 +31,10 @@ const Carousel = () => {
           loop={true}
           className='flex pb-10 bg-black text-white/80 h-full text-sm'>
               <SwiperSlide className='bg-black rounded-md'>
-                <Image src={image1} alt='image1' className='mx-auto h-full pb-9 w-[98%] brightness-90 rounded-sm' priority/>
+                <Image src={image1} alt='image1' className='mx-auto h-full pb-9 w-full brightness-90' priority />
               </SwiperSlide>
               <SwiperSlide className='bg-black rounded-md'>
-                <Image src={image2} alt='image2' className='mx-auto h-full pb-9 w-[98%] brightness- rounded-sm' priority/>
+                <Image src={image2} alt='image2' className='mx-auto h-full pb-9 w-full brightness-90' priority/>
               </SwiperSlide>
         </Swiper>
         <div className='flex relative mx-auto w-[120px]'>

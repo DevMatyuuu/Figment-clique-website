@@ -8,13 +8,11 @@ import {
   PaginationItem,
   PaginationLink,
 } from "@/components/ui/pagination"
-import { catalog } from '@prisma/client'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 
 interface PaginationControlsProps {
   hasNextPage: boolean | undefined
   hasPrevPage: boolean
-  catalog: Array<catalog> | undefined
 }
 
 export default function CatalogPaginationControls({hasNextPage, hasPrevPage} : PaginationControlsProps) {
@@ -31,7 +29,7 @@ export default function CatalogPaginationControls({hasNextPage, hasPrevPage} : P
   return (
     <Pagination className='pb-10'>
       <PaginationContent className='flex gap-6 items-center'>
-          <button aria-label='prev' className={`${!hasPrevPage && 'text-white/50'} bg-none text-white cursor-pointer`} disabled={!hasPrevPage} onClick={() => { router.push(`/catalog?page=${Number(page) - 1}&per_page=${per_page}`)}}>
+          <button aria-label='prev' className={`${!hasPrevPage && 'text-white/50'} bg-none text-white cursor-pointer hover:bg-white/30 duration-200 py-2 px-2 rounded-full`} disabled={!hasPrevPage} onClick={() => { router.push(`/catalog?page=${Number(page) - 1}&per_page=${per_page}`)}}>
            <ChevronLeft className='lg:size-5'/>
           </button>
         
@@ -43,7 +41,7 @@ export default function CatalogPaginationControls({hasNextPage, hasPrevPage} : P
             </PaginationItem>
           ))}
           
-          <button aria-label='next' className={`${!hasNextPage && 'text-white/50'} bg-none text-white cursor-pointer`} disabled={!hasNextPage} onClick={() => { router.push(`/catalog?page=${Number(page) + 1}&per_page=${per_page}`)}}>
+          <button aria-label='next' className={`${!hasNextPage && 'text-white/50'} bg-none text-white cursor-pointer hover:bg-white/30 duration-200 py-2 px-2 rounded-full`} disabled={!hasNextPage} onClick={() => { router.push(`/catalog?page=${Number(page) + 1}&per_page=${per_page}`)}}>
             <ChevronRight className='lg:size-5'/>
           </button>
       </PaginationContent>
