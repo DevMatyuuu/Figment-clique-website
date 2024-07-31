@@ -17,7 +17,7 @@ interface PaginationControlsProps {
   catalog: Array<catalog> | undefined
 }
 
-export default function CatalogPaginationControls({hasNextPage, hasPrevPage, catalog} : PaginationControlsProps) {
+export default function CatalogPaginationControls({hasNextPage, hasPrevPage} : PaginationControlsProps) {
   const router = useRouter()
   const searchParams = useSearchParams()
 

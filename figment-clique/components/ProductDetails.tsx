@@ -110,6 +110,9 @@ const ProductDetails = ({paramsTitle, catalog, stocks} : params) => {
             <span>This item is out of stock</span>
             }
           </span>
+          <div>
+            
+          </div>
           <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen();}} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-white/60 hover:bg-white/60 hover:text-black' : 'hover:bg-white/70 hover:text-white'} bg-white text-black mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>Add to cart</button>
           <button onClick={() => buyNow(catalogItemData?.id)} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-red-500/60 text-white/70 hover:bg-red-500/60 hover:text-white/70' : 'hover:bg-red-600 hover:text-white'} bg-red-500 text-white mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>Buy Now</button>
         </div>
