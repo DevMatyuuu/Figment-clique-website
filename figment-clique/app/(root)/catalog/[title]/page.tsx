@@ -1,5 +1,5 @@
-import { getCatalog } from '@/actions/getCatalog';
-import { getStocks } from '@/actions/getStocks';
+import { getCatalog } from '@/api/getCatalog';
+import { getStocks } from '@/api/getStocks';
 import ProductDetails from '@/components/ProductDetails';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Metadata } from 'next';

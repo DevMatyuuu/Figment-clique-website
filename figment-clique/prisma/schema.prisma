@@ -29,4 +29,14 @@ model stocks {
   xxl        Int
 }
 
+model orders {
+  id         String    @id @default(auto()) @map("_id") @db.ObjectId 
+  first_name String
+  last_name  String
+  address    String
+  barangay   String
+  postal_code String
+  city       String
+}
+
 

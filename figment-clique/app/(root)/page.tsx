@@ -1,5 +1,5 @@
-import { getCatalog } from "@/actions/getCatalog";
-import { getStocks } from "@/actions/getStocks";
+import { getCatalog } from "@/api/getCatalog";
+import { getStocks } from "@/api/getStocks";
 import Carousel from "@/components/Carousel";
 import dynamic from "next/dynamic";
 

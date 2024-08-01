@@ -6,9 +6,9 @@ import 'aos/dist/aos.css';
 import { CldImage } from 'next-cloudinary';
 import { stocks } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
-import { getCatalog } from '@/actions/getCatalog';
+import { getCatalog } from '@/api/getCatalog';
 import CatalogPaginationControls from './CatalogPaginationControls';
-import { useRouter, useSearchParams } from 'next/navigation';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 
 interface productsProps {
@@ -27,8 +27,6 @@ const Products = ({stocks}: productsProps) => {
   useEffect(() => {
     AOS.init();
   })
-
-  const router = useRouter();
 
   const searchParams = useSearchParams();
 

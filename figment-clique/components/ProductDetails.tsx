@@ -21,7 +21,7 @@ import { CldImage } from 'next-cloudinary';
 import RelatedProducts from './RelatedProducts';
 import { useRouter } from 'next/navigation';
 import { stocks } from '@prisma/client';
-import { getCatalog } from '@/actions/getCatalog';
+import { getCatalog } from '@/api/getCatalog';
 import { useQuery } from '@tanstack/react-query';
 
 
@@ -89,7 +89,7 @@ const ProductDetails = ({paramsTitle, stocks} : params) => {
   ]
 
   return (
-    <div className={`${!isLoading ? 'h-screen' : 'h-auto min-h-screen'} flex flex-col gap-10 container mx-auto max-w-[1070px] px-5 w-full lg:pt-10 lg:pb-20 py-10 lg:py-0`}>
+    <div className={`${!isLoading ? 'h-auto' : 'h-auto min-h-screen'} flex flex-col gap-10 container mx-auto max-w-[1070px] px-5 w-full lg:pt-10 lg:pb-20 py-10 lg:py-0`}>
       <Link href={'/catalog'} onClick={() => setSelectedSize('')} className='flex items-center gap-2 text-lg cursor-pointer w-max'>
         <TbArrowBackUp className='text-white'/>
         <div className='text-white'>Back</div>
@@ -158,8 +158,8 @@ const ProductDetails = ({paramsTitle, stocks} : params) => {
         </div>
       </div>
       <div className='flex flex-col lg:gap-20 gap-10 mt-16'>
-        <span className='text-white text-4xl text-center lg:text-start'>Related Products</span>
-        <RelatedProducts decodedParams={decodedParams} catalogItemData={catalogItemData}/>
+          <span className='text-white text-4xl text-center lg:text-start'>Related Products</span>
+          <RelatedProducts decodedParams={decodedParams} catalogItemData={catalogItemData}/>
       </div>
     </div>
   )

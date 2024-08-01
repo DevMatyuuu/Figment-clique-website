@@ -5,7 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Cart from "@/components/Cart";
 import Provider from "@/lib/TanstackProvider";
-import { getCatalog } from "@/actions/getCatalog";
+import { getCatalog } from "@/api/getCatalog";
 import SearchModal from "@/components/SearchModal";
 
 const inter = Inter({ subsets: ["latin"] });

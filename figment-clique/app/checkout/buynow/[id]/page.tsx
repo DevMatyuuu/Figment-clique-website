@@ -1,4 +1,4 @@
-import { getCatalog } from '@/actions/getCatalog';
+import { getCatalog } from '@/api/getCatalog';
 import BuyNowProducts from '@/components/BuyNowProducts';
 import CheckOutForm from '@/components/CheckOutForm';
 import React from 'react'

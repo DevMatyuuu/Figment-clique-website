@@ -7,7 +7,7 @@ import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css/pagination';
 import { useQuery } from '@tanstack/react-query';
-import { getCatalog } from '@/actions/getCatalog';
+import { getCatalog } from '@/api/getCatalog';
 
 interface relatedProductProps {
   decodedParams: string
@@ -44,7 +44,7 @@ const RelatedProducts = ({decodedParams, catalogItemData}: relatedProductProps) 
           },
         }}
         slidesPerView={5} 
-        className='flex w-full items-center'
+        className='w-full items-center'
         pagination={true}
         modules={[Pagination]}>
         {shuffledRelatedProducts && shuffledRelatedProducts.map((related) => (
