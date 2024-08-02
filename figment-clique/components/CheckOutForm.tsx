@@ -15,7 +15,7 @@ import { Input } from "@/components/ui/input"
 import { defaultValues } from '@/constants/formDefaultValues'
 import { formSchema } from '@/validation/form-schema'
 import { Button } from './ui/button'
-import { createOrder } from '@/api/createOrder'
+import { createOrderAction } from '@/actions/createOrderAction'
 
 export default function CheckOutForm() {
 
@@ -24,19 +24,22 @@ export default function CheckOutForm() {
     defaultValues: defaultValues
   })
   
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    await createOrderAction(values)
+  }
 
   return (
     <div className='h-screen w-full pt-10'>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(() => createOrder)}>
+          <form onSubmit={form.handleSubmit(onSubmit)}>
             <h1 className='text-4xl mb-10'>Delivery</h1>
             <div className='flex flex-col gap-5'>
-              <div className='flex items-center justify-between'>
+              <div className='flex items-center justify-between gap-5'>
                 <FormField
                 control={form.control}
                 name="firstName"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className='w-full'>
                     <FormControl>
                       <Input placeholder="First Name" {...field} />
                     </FormControl>
@@ -48,7 +51,7 @@ export default function CheckOutForm() {
                   control={form.control}
                   name="lastName"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className='w-full'>
                       <FormControl>
                         <Input placeholder="Last Name" {...field} />
                       </FormControl>
@@ -57,6 +60,18 @@ export default function CheckOutForm() {
                   )}
                 />
               </div>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormControl>
+                      <Input placeholder="Email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
                <FormField
                 control={form.control}
                 name="address"
@@ -81,12 +96,12 @@ export default function CheckOutForm() {
                   </FormItem>
                 )}
               />
-              <div className='flex items-center justify-between'>
+              <div className='flex items-center justify-between gap-5'>
                 <FormField
                 control={form.control}
                 name="postalCode"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className='w-full'>
                     <FormControl>
                       <Input placeholder="Postal Code" {...field} />
                     </FormControl>
@@ -98,7 +113,7 @@ export default function CheckOutForm() {
                   control={form.control}
                   name="city"
                   render={({ field }) => (
-                    <FormItem>
+                    <FormItem className='w-full'>
                       <FormControl>
                         <Input placeholder="City" {...field} />
                       </FormControl>

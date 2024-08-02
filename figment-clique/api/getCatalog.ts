@@ -12,7 +12,7 @@ export const getCatalog = async () => {
         image2: true,
         price: true,
         featured: true,
-        category: true
+        category: true,
       }
     })
 
