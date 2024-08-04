@@ -38,6 +38,7 @@ const ProductDetails = ({paramsTitle, stocks} : params) => {
   const { setCartOpen } = useModalStore();
   const [isClicked, setIsClicked] = useState(1)
   const [isBuyNowLoading, setIsBuyNowLoading] = useState(false)
+  const [isAddBtnLoading, setIsAddBtnLoading] = useState(false)
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['catalog'],
@@ -51,6 +52,16 @@ const ProductDetails = ({paramsTitle, stocks} : params) => {
   const buyNow = (id: string | undefined) => {
     router.push(`/checkout/buynow/${id}`)
     setIsBuyNowLoading(true)
+  }
+
+  const handleDropdownChange = (value: string) => {
+    setSelectedSize(value)
+    setIsAddBtnLoading(true)
+    setIsBuyNowLoading(true)
+    setTimeout(() => {
+      setIsAddBtnLoading(false)
+      setIsBuyNowLoading(false)
+    }, 1000)
   }
 
   const decodedParams = decodeURIComponent(paramsTitle);
@@ -99,7 +110,7 @@ const ProductDetails = ({paramsTitle, stocks} : params) => {
           <h1 className='text-2xl lg:text-4xl'>{catalogItemData?.title}</h1>
           <div className='flex flex-row-reverse w-full justify-end my-5 items-center gap-10'>
             <span className='text-base lg:text-lg'>₱{catalogItemData?.price} PHP</span>
-            <Select onValueChange={(value) => setSelectedSize(value)}>
+            <Select onValueChange={handleDropdownChange}>
               <SelectTrigger className="w-[180px]">
                 <SelectValue placeholder="Pick a size" />
               </SelectTrigger>
@@ -123,8 +134,10 @@ const ProductDetails = ({paramsTitle, stocks} : params) => {
           <div>
             
           </div>
-          <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen();}} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-white/60 hover:bg-white/60 hover:text-black' : 'hover:bg-white/70 hover:text-white'} bg-white text-black mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>Add to cart</button>
-          <button onClick={() => buyNow(catalogItemData?.id)} disabled={addToCartDisabled} className={`${addToCartDisabled ? 'cursor-not-allowed bg-red-500/60 text-white/70 hover:bg-red-500/60 hover:text-white/70' : 'hover:bg-red-600 hover:text-white'} bg-red-500 text-white mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>
+          <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen();}} disabled={addToCartDisabled || isAddBtnLoading} className={`${addToCartDisabled || isAddBtnLoading ? 'cursor-not-allowed bg-white/60 hover:bg-white/60 hover:text-black' : 'hover:bg-white/70 hover:text-white'} bg-white text-black mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>
+            {isAddBtnLoading ? <span>Loading</span> : <span>Add To Cart</span>}
+          </button>
+          <button onClick={() => buyNow(catalogItemData?.id)} disabled={addToCartDisabled} className={`${addToCartDisabled || isBuyNowLoading ? 'cursor-not-allowed bg-red-500/60 text-white/70 hover:bg-red-500/60 hover:text-white/70' : 'hover:bg-red-600 hover:text-white'} bg-red-500 text-white mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>
             {isBuyNowLoading ? <span>Loading</span> : <span>Buy Now</span>}
           </button>
         </div>
