@@ -15,19 +15,35 @@ import { Input } from "@/components/ui/input"
 import { defaultValues } from '@/constants/formDefaultValues'
 import { formSchema } from '@/validation/form-schema'
 import { Button } from './ui/button'
-import { createOrderAction } from '@/actions/createOrderAction'
+import { createOrderAction } from '@/action/createOrderAction'
+import useCartStore from '@/store/CartStore'
+
 
 export default function CheckOutForm() {
 
+  const { cart } = useCartStore();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
-    defaultValues: defaultValues
+    defaultValues: defaultValues,
+    
   })
   
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    await createOrderAction(values)
-  }
+    const { reset } = form;
 
+    const cartData = 
+      {
+        title: cart.map(item => item.title),
+        quantity: cart.map(item => item.quantity),
+        price: cart.map(item => item.price),
+        size: cart.map(item => item.size)
+      }
+    
+    await createOrderAction(values, cartData)
+    reset(defaultValues);
+  }
+  
   return (
     <div className='h-screen w-full pt-10'>
         <Form {...form}>

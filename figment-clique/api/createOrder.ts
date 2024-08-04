@@ -1,11 +1,28 @@
+import { CartOrderData } from "@/types";
 import { formSchema } from "@/validation/form-schema";
-import { z } from "zod";
 import { PrismaClient } from "@prisma/client";
+import { z } from "zod";
 
 const prisma = new PrismaClient();
 
-export async function createOrder(values: z.infer<typeof formSchema>) {
+export async function createOrder(values: z.infer<typeof formSchema>, cart: CartOrderData) {
+
   try {
+    const productCount = cart.title.length;
+    if (productCount !== cart.quantity.length || 
+        productCount !== cart.price.length || 
+        productCount !== cart.size.length) {
+      throw new Error('Mismatched array lengths in searchParams');
+    }
+
+    const products = cart.title.map((_, index) => ({
+      title: cart.title[index],
+      quantity: cart.quantity[index],
+      price: cart.price[index],
+      size: cart.size[index],
+    }));
+
+
     const order = await prisma.orders.create({
       data: {
         first_name: values.firstName,
@@ -15,7 +32,11 @@ export async function createOrder(values: z.infer<typeof formSchema>) {
         barangay: values.barangay,
         postal_code: values.postalCode,
         city: values.city,
-        phone: values.phone, 
+        phone: values.phone,
+        products: [{
+          product: products
+          }
+        ]
       },
     });
     return { order };

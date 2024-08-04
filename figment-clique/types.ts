@@ -6,3 +6,10 @@ export type Cart = {
   quantity: number;
   price: number;
 }
+
+export type CartOrderData = {
+  title: string[];
+  quantity: number[];
+  size: string[];
+  price: number[];
+}
