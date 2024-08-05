@@ -15,7 +15,7 @@ export async function createOrder(values: z.infer<typeof formSchema>, cart: Cart
       throw new Error('Mismatched array lengths in searchParams');
     }
 
-    const products = cart.title.map((_, index) => ({
+    const productsData = cart.title.map((_, index) => ({
       title: cart.title[index],
       quantity: cart.quantity[index],
       price: cart.price[index],
@@ -34,6 +34,7 @@ export async function createOrder(values: z.infer<typeof formSchema>, cart: Cart
         postal_code: values.postalCode,
         city: values.city,
         phone: values.phone,
+        products: productsData.map(item => item.title)
       },
     });
     return { order };
