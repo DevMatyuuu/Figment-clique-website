@@ -9,7 +9,7 @@ export async function createOrder(values: z.infer<typeof formSchema>, cart: Cart
 
   try {
     const productCount = cart.title.length;
-    if (productCount !== cart.quantity.length || 
+      if (productCount !== cart.quantity.length || 
         productCount !== cart.price.length || 
         productCount !== cart.size.length) {
       throw new Error('Mismatched array lengths in searchParams');
@@ -25,6 +25,7 @@ export async function createOrder(values: z.infer<typeof formSchema>, cart: Cart
 
     const order = await prisma.orders.create({
       data: {
+        country: values.country,
         first_name: values.firstName,
         last_name: values.lastName,
         email: values.email,
@@ -33,10 +34,6 @@ export async function createOrder(values: z.infer<typeof formSchema>, cart: Cart
         postal_code: values.postalCode,
         city: values.city,
         phone: values.phone,
-        products: [{
-          product: products
-          }
-        ]
       },
     });
     return { order };

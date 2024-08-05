@@ -16,8 +16,6 @@ model catalog {
   featured   Boolean   @default(false) 
   category   String
   stocks     stocks[]
-  orderId    String
-  Order      Orders  @relation("OrderProducts", fields: [orderId], references: [id])
 }
 
 model stocks {
@@ -31,17 +29,17 @@ model stocks {
   xxl        Int
 }
 
-model Orders {
+model orders {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId
-  firstName  String
-  lastName   String
+  country     String
+  first_name  String
+  last_name   String
   email      String
   address    String
   barangay   String
-  postalCode String
+  postal_code String
   city       String
   phone      String
-  products   catalog[] @relation("OrderProducts")
 }
 
 

@@ -25,7 +25,6 @@ import { getCatalog } from '@/api/getCatalog';
 import { useQuery } from '@tanstack/react-query';
 
 
-
 interface params {
   paramsTitle: string
   stocks: Array<stocks> | undefined

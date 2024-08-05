@@ -1,6 +1,7 @@
 import { z } from "zod";
 
 export const formSchema = z.object({
+  country: z.string().min(1, { message: "Please select country" }),
   firstName: z.string().min(2).max(20),
   email: z.string().email(),
   lastName: z.string().min(2).max(20),
