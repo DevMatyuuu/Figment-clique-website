@@ -1,4 +1,4 @@
-import { CartOrderData } from "@/types";
+import { BuyNowData, CartOrderData } from "@/types";
 import { formSchema } from "@/validation/form-schema";
 import { PrismaClient } from "@prisma/client";
 import { z } from "zod";
@@ -6,15 +6,8 @@ import { z } from "zod";
 const prisma = new PrismaClient();
 
 export async function createOrder(values: z.infer<typeof formSchema>, cart: CartOrderData) {
-
   try {
-    const productCount = cart.title.length;
-      if (productCount !== cart.quantity.length || 
-        productCount !== cart.price.length || 
-        productCount !== cart.size.length) {
-      throw new Error('Mismatched array lengths in searchParams');
-    }
-
+    
     const productsData = cart.title.map((_, index) => ({
       title: cart.title[index],
       quantity: cart.quantity[index],
@@ -34,7 +27,41 @@ export async function createOrder(values: z.infer<typeof formSchema>, cart: Cart
         postal_code: values.postalCode,
         city: values.city,
         phone: values.phone,
-        products: productsData.map(item => item.title)
+        products: productsData
+      },
+    });
+    return { order };
+  } catch (error) {
+    console.error('Error creating order:', error);
+    return { message: 'Failed to create order' };
+  }
+}
+
+export async function createBuyNowOrder(values: z.infer<typeof formSchema>, product: BuyNowData) {
+  try {
+
+    const productsData = {
+      title: product.title,
+      quantity: product.quantity,
+      price: product.price,
+      size: product.size,
+    };
+
+
+    const order = await prisma.orders.create({
+      data: {
+        country: values.country,
+        first_name: values.firstName,
+        last_name: values.lastName,
+        email: values.email,
+        address: values.address,
+        barangay: values.barangay,
+        postal_code: values.postalCode,
+        city: values.city,
+        phone: values.phone,
+        products: [
+          productsData
+        ],
       },
     });
     return { order };

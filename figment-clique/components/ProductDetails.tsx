@@ -25,6 +25,7 @@ import { getCatalog } from '@/api/getCatalog';
 import { useQuery } from '@tanstack/react-query';
 
 
+
 interface params {
   paramsTitle: string
   stocks: Array<stocks> | undefined
@@ -49,7 +50,7 @@ const ProductDetails = ({paramsTitle, stocks} : params) => {
   const router = useRouter();
 
   const buyNow = (id: string | undefined) => {
-    router.push(`/checkout/buynow/${id}`)
+    router.push(`/checkout/buynow/${id}?size=${selectedSize}`)
     setIsBuyNowLoading(true)
   }
 
@@ -122,12 +123,12 @@ const ProductDetails = ({paramsTitle, stocks} : params) => {
               </SelectContent>
             </Select>
           </div>
-          <span className={`${addToCartDisabled ? 'block' : 'hidden'} text-[.8rem] text-red-500`}>
+          <span className={`${addToCartDisabled ? 'block' : 'hidden'} text-[.8rem]`}>
             {!selectedSize
             ?
-            <span>Pick a size first to add to cart and to buy now*</span>
+            <span className='text-white/70'>Pick a size first to add an item to cart or to buy now</span>
             :
-            <span>This item is out of stock</span>
+            <span className='text-red-500'>This item is out of stock</span>
             }
           </span>
           <div>

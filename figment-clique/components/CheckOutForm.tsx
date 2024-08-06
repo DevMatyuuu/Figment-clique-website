@@ -15,7 +15,7 @@ import { Input } from '@/components/ui/input';
 import { defaultValues } from '@/constants/formDefaultValues';
 import { formSchema } from '@/validation/form-schema';
 import { Button } from './ui/button';
-import { createOrderAction } from '@/action/createOrderAction';
+import { createOrderAction } from '@/actions/createOrderAction';
 import useCartStore from '@/store/CartStore';
 import {
   Select,
@@ -25,13 +25,26 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import countryList from 'react-select-country-list';
+import { catalog } from '@prisma/client';
+import { useSearchParams } from 'next/navigation';
+import { createBuyNowOrderAction } from '@/actions/createBuyNowOrderAction';
 
 type CountryOption = {
   label: string;
   value: string;
 };
 
-export default function CheckOutForm() {
+interface CheckOutFormProps {
+  productFromBuyNow: catalog | undefined
+  paramsId: string | undefined
+}
+
+
+export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFormProps) {
+  const searchParams = useSearchParams();
+
+  const buyNowProductSize = searchParams.get('size')
+
   const { cart } = useCartStore();
 
   const options: CountryOption[] = useMemo(() => countryList().getData(), []);
@@ -51,7 +64,18 @@ export default function CheckOutForm() {
       size: cart.map((item) => item.size),
     };
 
-    await createOrderAction(values, cartData);
+    const buyNowData = {
+      title: productFromBuyNow?.title as string,
+      quantity: 1,
+      price: Number(productFromBuyNow?.price),
+      size: buyNowProductSize as string
+    }
+
+    if (paramsId) {
+      await createBuyNowOrderAction(values, buyNowData)
+    } else {
+      await createOrderAction(values, cartData);
+    }
     reset(defaultValues);
   }
 
@@ -61,6 +85,8 @@ export default function CheckOutForm() {
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <h1 className='text-4xl mb-10'>Delivery</h1>
           <div className='flex flex-col gap-5'>
+
+            {/* country select */}
             <FormField
               control={form.control}
               name='country'
@@ -87,6 +113,8 @@ export default function CheckOutForm() {
                 </FormItem>
               )}
             />
+
+            {/* first name and last name field */}
             <div className='flex items-center justify-between gap-5'>
               <FormField
                 control={form.control}
@@ -113,6 +141,8 @@ export default function CheckOutForm() {
                 )}
               />
             </div>
+
+            {/* email field */}
             <FormField
               control={form.control}
               name='email'
@@ -125,6 +155,8 @@ export default function CheckOutForm() {
                 </FormItem>
               )}
             />
+
+            {/* address field */}
             <FormField
               control={form.control}
               name='address'
@@ -137,6 +169,8 @@ export default function CheckOutForm() {
                 </FormItem>
               )}
             />
+
+            {/* barangay field */}
             <FormField
               control={form.control}
               name='barangay'
@@ -149,6 +183,8 @@ export default function CheckOutForm() {
                 </FormItem>
               )}
             />
+
+            {/* postal code and city field */}
             <div className='flex items-center justify-between gap-5'>
               <FormField
                 control={form.control}
@@ -175,6 +211,8 @@ export default function CheckOutForm() {
                 )}
               />
             </div>
+
+            {/* phone field */}
             <FormField
               control={form.control}
               name='phone'

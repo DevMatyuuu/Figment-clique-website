@@ -31,6 +31,7 @@ model stocks {
 
 model orders {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  orderNo     String
   country     String
   first_name  String
   last_name   String
@@ -40,7 +41,7 @@ model orders {
   postal_code String
   city       String
   phone      String
-  products   String[]
+  products   Json[] 
 }
 
 

@@ -13,3 +13,10 @@ export type CartOrderData = {
   size: string[];
   price: number[];
 }
+
+export type BuyNowData = {
+  title: string;
+  quantity: number;
+  price: number;
+  size: string;
+};
