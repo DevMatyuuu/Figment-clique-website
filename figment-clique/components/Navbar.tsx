@@ -56,7 +56,7 @@ const Navbar = () => {
         <div className='lg:hidden'>
           <Hamburger size={24} toggled={isNavModalOpen} toggle={() => setNavModalOpen(!isNavModalOpen)}/>
         </div>
-        <Image priority src={logo} alt="figment-clique-logo" className={`${isScrolled ? 'lg:w-[8rem] h-full w-[8rem] lg:py-6 py-3 transition-all duration-300 ease-in-out' : 'lg:w-[10rem] h-full w-[10rem] lg:py-10 py-5 transition-all duration-300 ease-in-out'}`}/>
+        <Image priority src={logo} alt="figment-clique-logo" className={`${isScrolled ? 'h-full w-[8rem] lg:py-6 py-3 transition-all duration-300 ease-in-out' : 'lg:w-[10rem] h-full w-[10rem] lg:py-10 py-5 transition-all duration-300 ease-in-out'}`}/>
         <div className='flex items-center gap-5'>
           <div onClick={() => {setSearchModalOpen(); setNavModalClose()}} className='lg:hidden size-6 cursor-pointer'>
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

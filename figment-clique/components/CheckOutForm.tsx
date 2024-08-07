@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -28,6 +28,15 @@ import countryList from 'react-select-country-list';
 import { catalog } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 import { createBuyNowOrderAction } from '@/actions/createBuyNowOrderAction';
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion"
+import ShippingMethod from './ShippingMethod';
+
+
 
 type CountryOption = {
   label: string;
@@ -41,6 +50,7 @@ interface CheckOutFormProps {
 
 
 export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFormProps) {
+
   const searchParams = useSearchParams();
 
   const buyNowProductSize = searchParams.get('size')
@@ -80,7 +90,7 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
   }
 
   return (
-    <div className='h-screen w-full pt-10'>
+    <div className='h-auto w-full pt-10 pb-40'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <h1 className='text-4xl mb-10'>Delivery</h1>
@@ -226,9 +236,20 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
               )}
             />
           </div>
+          
+          {/* shipping method */}
+          <div className='mt-10'>
+            <ShippingMethod />
+          </div>
+
+          {/* payment method */}
+          <div>
+
+          </div>
+
           <Button
             type='submit'
-            className='bg-red-500 text-white hover:bg-red-600'
+            className='w-full h-14 bg-red-500 text-white hover:bg-red-600 mt-10'
           >
             Complete Order
           </Button>

@@ -31,7 +31,7 @@ model stocks {
 
 model orders {
   id         String      @id @default(auto()) @map("_id") @db.ObjectId
-  orderNo     String
+  order_id    String      @unique
   country     String
   first_name  String
   last_name   String
