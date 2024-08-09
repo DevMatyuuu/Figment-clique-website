@@ -20,32 +20,27 @@ import 'swiper/css';
 import { CldImage } from 'next-cloudinary';
 import RelatedProducts from './RelatedProducts';
 import { useRouter } from 'next/navigation';
-import { stocks } from '@prisma/client';
+import { catalog, stocks } from '@prisma/client';
 import { getCatalog } from '@/api/getCatalog';
 import { useQuery } from '@tanstack/react-query';
+import Loader from './ui/Loader';
 
 
 
 interface params {
   paramsTitle: string
   stocks: Array<stocks> | undefined
+  catalog: Array<catalog> | undefined
 }
 
 
-const ProductDetails = ({paramsTitle, stocks} : params) => {
+const ProductDetails = ({paramsTitle, stocks, catalog} : params) => {
   const { addToCart, setSelectedSize, selectedSize } = useCartStore();
   const [selectedPreview, setSelectedPreview] = useState('');
   const { setCartOpen } = useModalStore();
   const [isClicked, setIsClicked] = useState(1)
   const [isBuyNowLoading, setIsBuyNowLoading] = useState(false)
   const [isAddBtnLoading, setIsAddBtnLoading] = useState(false)
-
-  const { data, error, isLoading } = useQuery({
-    queryKey: ['catalog'],
-    queryFn: getCatalog,
-    refetchOnMount: false,
-    refetchOnReconnect: false
-  })
 
   const router = useRouter();
 
@@ -66,7 +61,7 @@ const ProductDetails = ({paramsTitle, stocks} : params) => {
 
   const decodedParams = decodeURIComponent(paramsTitle);
   
-  const catalogItemData = data?.catalog?.find(item => item.title === decodedParams);
+  const catalogItemData = catalog?.find(item => item.title === decodedParams);
   const catalogStocks = stocks?.find(item => item.catalogId === catalogItemData?.id)
 
   const addToCartDisabled = !selectedSize
@@ -100,7 +95,7 @@ const ProductDetails = ({paramsTitle, stocks} : params) => {
   ]
 
   return (
-    <div className={`${!isLoading ? 'h-auto' : 'h-auto min-h-screen'} flex flex-col gap-10 container mx-auto max-w-[1070px] px-5 w-full lg:pt-10 lg:pb-20 py-10 lg:py-0`}>
+    <div className='flex flex-col gap-10 container mx-auto max-w-[1070px] px-5 w-full lg:pt-10 lg:pb-20 py-10 lg:py-0'>
       <Link href={'/catalog'} onClick={() => setSelectedSize('')} className='flex items-center gap-2 text-lg cursor-pointer w-max'>
         <TbArrowBackUp className='text-white'/>
         <div className='text-white'>Back</div>
@@ -134,11 +129,11 @@ const ProductDetails = ({paramsTitle, stocks} : params) => {
           <div>
             
           </div>
-          <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen();}} disabled={addToCartDisabled || isAddBtnLoading} className={`${addToCartDisabled || isAddBtnLoading ? 'cursor-not-allowed bg-white/60 hover:bg-white/60 hover:text-black' : 'hover:bg-white/70 hover:text-white'} bg-white text-black mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>
-            {isAddBtnLoading ? <span>Loading</span> : <span>Add To Cart</span>}
+          <button onClick={() => {addToCart(catalogItemData as unknown as Cart); setCartOpen();}} disabled={addToCartDisabled || isAddBtnLoading} className={`${addToCartDisabled || isAddBtnLoading ? 'cursor-not-allowed bg-white/60 hover:bg-white/60 hover:text-black' : 'hover:bg-white/80'} bg-white text-black mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>
+            {isAddBtnLoading ? <span className='relative'><Loader /></span> : <span>Add To Cart</span>}
           </button>
           <button onClick={() => buyNow(catalogItemData?.id)} disabled={addToCartDisabled} className={`${addToCartDisabled || isBuyNowLoading ? 'cursor-not-allowed bg-red-500/60 text-white/70 hover:bg-red-500/60 hover:text-white/70' : 'hover:bg-red-600 hover:text-white'} bg-red-500 text-white mt-5 h-10 rounded-lg lg:w-[300px]  w-full duration-200`}>
-            {isBuyNowLoading ? <span>Loading</span> : <span>Buy Now</span>}
+            {isBuyNowLoading ? <span className='relative'><Loader /></span> : <span>Buy Now</span>}
           </button>
         </div>
         <div className='flex flex-col lg:w-[50%] w-full gap-10 mx-auto'>

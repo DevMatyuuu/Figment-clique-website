@@ -21,7 +21,8 @@ const Products = ({stocks}: productsProps) => {
     queryKey: ['catalog'],
     queryFn: getCatalog,
     refetchOnMount: false,
-    refetchOnReconnect: false
+    refetchOnReconnect: false,
+    refetchOnWindowFocus: false,
   })
 
   useEffect(() => {

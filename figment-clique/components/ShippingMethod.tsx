@@ -19,11 +19,11 @@ const handleRadioChange = (value: string) => {
             <AccordionItem value="item-1">
                 <AccordionTrigger className='flex items-center space-x-2' >
                 <div className="radio-button">
-                <input name="radio-group" id="radio1" className="radio-button__input" type="radio" onChange={() => handleRadioChange("item-1")}/>
-                <label htmlFor="radio1" className="radio-button__label">
-                    <span className="radio-button__custom"></span> 
-                        GCASH
-                </label>
+                    <input name="radio-group" id="radio1" className="radio-button__input" type="radio" onChange={() => handleRadioChange("item-1")}/>
+                    <label htmlFor="radio1" className="radio-button__label">
+                        <span className="radio-button__custom"></span> 
+                            GCASH
+                    </label>
                 </div>
                 </AccordionTrigger>
                 <AccordionContent>
@@ -33,11 +33,11 @@ const handleRadioChange = (value: string) => {
             <AccordionItem value="item-2">
                 <AccordionTrigger className='flex items-center space-x-2'>
                 <div className="radio-button">
-                <input name="radio-group" id="radio2" className="radio-button__input" type="radio" onChange={() => handleRadioChange("item-2")}/>
-                <label htmlFor="radio2" className="radio-button__label">
-                    <span className="radio-button__custom"></span> 
-                        BPI
-                </label>
+                    <input name="radio-group" id="radio2" className="radio-button__input" type="radio" onChange={() => handleRadioChange("item-2")}/>
+                    <label htmlFor="radio2" className="radio-button__label">
+                        <span className="radio-button__custom"></span> 
+                            BPI
+                    </label>
                 </div>
                 </AccordionTrigger>
                 <AccordionContent>
@@ -47,11 +47,11 @@ const handleRadioChange = (value: string) => {
             <AccordionItem value="item-3">
                 <AccordionTrigger className='flex items-center space-x-2'>
                 <div className="radio-button">
-                <input name="radio-group" id="radio3" className="radio-button__input" type="radio" onChange={() => handleRadioChange("item-3")}/>
-                <label htmlFor="radio3" className="radio-button__label">
-                    <span className="radio-button__custom"></span> 
-                        Cash On Delivery
-                </label>
+                    <input name="radio-group" id="radio3" className="radio-button__input" type="radio" onChange={() => handleRadioChange("item-3")}/>
+                    <label htmlFor="radio3" className="radio-button__label">
+                        <span className="radio-button__custom"></span> 
+                            Cash On Delivery
+                    </label>
                 </div>
                 </AccordionTrigger>
                 <AccordionContent>

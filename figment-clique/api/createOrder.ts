@@ -21,7 +21,7 @@ export async function createOrder(values: z.infer<typeof formSchema>, cart: Cart
 
     const order = await prisma.orders.create({
       data: {
-        order_id: `FC-$${randomUUID()}`,
+        order_id: `FC-$${randomUUID()}`, 
         country: values.country,
         first_name: values.firstName,
         last_name: values.lastName,
@@ -54,7 +54,7 @@ export async function createBuyNowOrder(values: z.infer<typeof formSchema>, prod
 
     const order = await prisma.orders.create({
       data: {
-        order_id: `FC-$${randomUUID()}`,
+        order_id: `FC-$${randomUUID()}`, 
         country: values.country,
         first_name: values.firstName,
         last_name: values.lastName,

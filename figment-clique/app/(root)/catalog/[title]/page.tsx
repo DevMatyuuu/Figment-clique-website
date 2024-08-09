@@ -3,7 +3,7 @@ import { getStocks } from '@/api/getStocks';
 import ProductDetails from '@/components/ProductDetails';
 import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query';
 import { Metadata } from 'next';
-import React from 'react'
+import React, { Suspense } from 'react'
 
 export const metadata: Metadata = {
   title: "Figment Clique | Home",
@@ -20,11 +20,8 @@ interface Params {
 }
 
 const page = async ({ params }: Params) => {
-  const queryClient = new QueryClient();
-  await queryClient.prefetchQuery({
-    queryKey: ['catalog'],
-    queryFn: getCatalog
-  })
+
+  const { catalog } = await getCatalog();
   
   const { stocks } = await getStocks();
 
@@ -32,9 +29,9 @@ const page = async ({ params }: Params) => {
 
   return (
     <div>
-      <HydrationBoundary state={dehydrate(queryClient)}>
-        <ProductDetails paramsTitle = {paramsTitle} stocks={stocks} />
-      </HydrationBoundary>
+        <Suspense fallback={<div>Loading...</div>}>
+          <ProductDetails paramsTitle = {paramsTitle} stocks={stocks} catalog={catalog} />
+        </Suspense>
     </div>
   )
 }

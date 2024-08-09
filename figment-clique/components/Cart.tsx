@@ -5,6 +5,7 @@ import useModalStore from '@/store/ModalStore';
 import React, { useEffect, useState } from 'react';
 import CartItems from './CartItems';
 import Link from 'next/link';
+import Loader from './ui/Loader';
 
 
 const Cart = () => {
@@ -54,7 +55,7 @@ const Cart = () => {
             </div>
             <div className='flex flex-col gap-5 w-[80%]'>
               <Link href={`/checkout`} onClick={handleCheckOut} className='flex justify-center items-center w-full h-12 bg-white hover:bg-slate-500 hover:text-white text-black rounded-md duration-200'>
-                {isCheckoutLoading ? <span>Loading...</span> : <span>Checkout</span>}
+                {isCheckoutLoading ? <span className='relative'><Loader /></span> : <span>Checkout</span>}
               </Link>
               <button onClick={clearCart} className='w-full h-12 bg-white hover:bg-slate-500 hover:text-white text-black rounded-md duration-200'>Clear Cart</button>
             </div>

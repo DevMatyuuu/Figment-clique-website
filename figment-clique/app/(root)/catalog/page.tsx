@@ -27,7 +27,7 @@ export default async function Catalog() {
       <h1 className="text-white text-4xl">Catalog</h1>
       <div className="flex flex-col lg:gap-16 gap-10">
         <HydrationBoundary state={dehydrate(queryClient)}>
-          <Suspense>
+          <Suspense fallback={<div>Loading...</div>}>
             <Products stocks={stocks} />
           </Suspense>
         </HydrationBoundary>
