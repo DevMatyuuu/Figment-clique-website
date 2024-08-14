@@ -21,7 +21,7 @@ import { CldImage } from 'next-cloudinary';
 import RelatedProducts from './RelatedProducts';
 import { useRouter } from 'next/navigation';
 import { catalog, stocks } from '@prisma/client';
-import { getCatalog } from '@/api/getCatalog';
+import { getCatalog } from '@/app/api/getCatalog';
 import { useQuery } from '@tanstack/react-query';
 import Loader from './ui/Loader';
 

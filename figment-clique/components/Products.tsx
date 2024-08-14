@@ -6,7 +6,7 @@ import 'aos/dist/aos.css';
 import { CldImage } from 'next-cloudinary';
 import { stocks } from '@prisma/client';
 import { useQuery } from '@tanstack/react-query';
-import { getCatalog } from '@/api/getCatalog';
+import { getCatalog } from '@/app/api/getCatalog';
 import CatalogPaginationControls from './CatalogPaginationControls';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';

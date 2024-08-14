@@ -28,15 +28,12 @@ import countryList from 'react-select-country-list';
 import { catalog } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 import { createBuyNowOrderAction } from '@/actions/createBuyNowOrderAction';
-import {
-  Accordion,
-  AccordionContent,
-  AccordionItem,
-  AccordionTrigger,
-} from "@/components/ui/accordion"
 import ShippingMethod from './ShippingMethod';
+import { SendEmailAction } from '@/actions/SendEmailAction';
+import { createOrder } from '@/app/api/createOrder';
+import ShortUniqueId from 'short-unique-id';
 
-
+const { randomUUID } = new ShortUniqueId({ length: 10 });
 
 type CountryOption = {
   label: string;
@@ -67,6 +64,10 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { reset } = form;
 
+    const uuid = `FC-${randomUUID}`
+
+    const stringeduuid = uuid.toString()
+
     const cartData = {
       title: cart.map((item) => item.title),
       quantity: cart.map((item) => item.quantity),
@@ -82,9 +83,10 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
     }
 
     if (paramsId) {
-      await createBuyNowOrderAction(values, buyNowData)
+      await createBuyNowOrderAction(values, buyNowData, uuid)
     } else {
-      await createOrderAction(values, cartData);
+      await createOrderAction(values, cartData, uuid);
+      await SendEmailAction(values, stringeduuid)
     }
     reset(defaultValues);
   }

@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import Products from "@/components/Products";
-import { getCatalog } from "@/api/getCatalog";
-import { getStocks } from "@/api/getStocks";
+import { getCatalog } from "@/app/api/getCatalog";
+import { getStocks } from "@/app/api/getStocks";
 import { dehydrate, HydrationBoundary, QueryClient } from "@tanstack/react-query";
 import { Suspense } from "react";
 

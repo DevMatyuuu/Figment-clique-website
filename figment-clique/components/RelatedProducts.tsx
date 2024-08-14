@@ -7,7 +7,7 @@ import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css/pagination';
 import { useQuery } from '@tanstack/react-query';
-import { getCatalog } from '@/api/getCatalog';
+import { getCatalog } from '@/app/api/getCatalog';
 
 interface relatedProductProps {
   decodedParams: string

@@ -1,6 +1,6 @@
 'use server'
 
-import { createBuyNowOrder } from "@/api/createOrder";
+import { createBuyNowOrder } from "@/app/api/createOrder";
 import { BuyNowData } from "@/types";
 import { formSchema } from "@/validation/form-schema";
 import { z } from "zod";
