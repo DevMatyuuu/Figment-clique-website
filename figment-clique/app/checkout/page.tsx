@@ -6,11 +6,11 @@ import React from 'react'
 export default function page() {
 
   return (
-    <div className='flex container mx-auto max-w-[1070px] px-5 gap-20'>
-      <div className='flex w-[50%]'>
+    <div className='flex lg:flex-row flex-col container mx-auto max-w-[1070px] px-5 gap-20'>
+      <div className='flex lg:w-[50%] w-full'>
         <CheckOutForm productFromBuyNow={undefined} paramsId={undefined} />
       </div>
-      <div className='flex w-[50%]'>
+      <div className='flex lg:w-[50%] w-full'>
         <CheckOutProducts />
       </div>
     </div>

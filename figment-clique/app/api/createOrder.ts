@@ -1,14 +1,12 @@
 import { BuyNowData, CartOrderData } from "@/types";
 import { formSchema } from "@/validation/form-schema";
 import { PrismaClient } from "@prisma/client";
+import ShortUniqueId from "short-unique-id";
 import { z } from "zod";
-import ShortUniqueId from 'short-unique-id';
 
 const prisma = new PrismaClient();
 
-const { randomUUID } = new ShortUniqueId({ length: 10 });
-
-export async function createOrder(values: z.infer<typeof formSchema>, cart: CartOrderData) {
+export async function createOrder(values: z.infer<typeof formSchema>, cart: CartOrderData, orderId: string) {
   try {
     
     const productsData = cart.title.map((_, index) => ({
@@ -21,7 +19,7 @@ export async function createOrder(values: z.infer<typeof formSchema>, cart: Cart
 
     const order = await prisma.orders.create({
       data: {
-        order_id: `FC-$${randomUUID()}`, 
+        order_id: orderId, 
         country: values.country,
         first_name: values.firstName,
         last_name: values.lastName,
@@ -41,7 +39,7 @@ export async function createOrder(values: z.infer<typeof formSchema>, cart: Cart
   }
 }
 
-export async function createBuyNowOrder(values: z.infer<typeof formSchema>, product: BuyNowData) {
+export async function createBuyNowOrder(values: z.infer<typeof formSchema>, product: BuyNowData, orderId: string) {
   try {
 
     const productsData = {
@@ -54,7 +52,7 @@ export async function createBuyNowOrder(values: z.infer<typeof formSchema>, prod
 
     const order = await prisma.orders.create({
       data: {
-        order_id: `FC-$${randomUUID()}`, 
+        order_id: orderId, 
         country: values.country,
         first_name: values.firstName,
         last_name: values.lastName,

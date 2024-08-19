@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -30,10 +30,9 @@ import { useSearchParams } from 'next/navigation';
 import { createBuyNowOrderAction } from '@/actions/createBuyNowOrderAction';
 import ShippingMethod from './ShippingMethod';
 import { SendEmailAction } from '@/actions/SendEmailAction';
-import { createOrder } from '@/app/api/createOrder';
 import ShortUniqueId from 'short-unique-id';
 
-const { randomUUID } = new ShortUniqueId({ length: 10 });
+const uid = new ShortUniqueId({ length: 10 });
 
 type CountryOption = {
   label: string;
@@ -45,28 +44,34 @@ interface CheckOutFormProps {
   paramsId: string | undefined
 }
 
-
-export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFormProps) {
-
+export default function CheckOutForm({ productFromBuyNow, paramsId }: CheckOutFormProps) {
+  const [shortId, setShortId] = useState('');
+  const [itemsTotalQty, setItemsTotalQty] = useState(0);
   const searchParams = useSearchParams();
-
-  const buyNowProductSize = searchParams.get('size')
-
-  const { cart } = useCartStore();
-
+  const buyNowProductSize = searchParams.get('size');
+  const { cart, total} = useCartStore();
   const options: CountryOption[] = useMemo(() => countryList().getData(), []);
 
+  useEffect(() => {
+    const quantity = cart.reduce((a, c) => {
+      return (a + c.quantity)
+    }, 0)
+
+    setItemsTotalQty(quantity)
+  }, [cart])
+
+  useEffect(() => {
+    setShortId(`FC-${uid.rnd()}`)
+  },[])
+  
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,
   });
 
+
   async function onSubmit(values: z.infer<typeof formSchema>) {
     const { reset } = form;
-
-    const uuid = `FC-${randomUUID}`
-
-    const stringeduuid = uuid.toString()
 
     const cartData = {
       title: cart.map((item) => item.title),
@@ -80,13 +85,14 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
       quantity: 1,
       price: Number(productFromBuyNow?.price),
       size: buyNowProductSize as string
-    }
+    };
 
     if (paramsId) {
-      await createBuyNowOrderAction(values, buyNowData, uuid)
+      await createBuyNowOrderAction(values, buyNowData, shortId);
+      await SendEmailAction(values, shortId, cart, itemsTotalQty, total);
     } else {
-      await createOrderAction(values, cartData, uuid);
-      await SendEmailAction(values, stringeduuid)
+      await createOrderAction(values, cartData, shortId);
+      await SendEmailAction(values, shortId, cart, itemsTotalQty, total);
     }
     reset(defaultValues);
   }
@@ -97,7 +103,6 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <h1 className='text-4xl mb-10'>Delivery</h1>
           <div className='flex flex-col gap-5'>
-
             {/* country select */}
             <FormField
               control={form.control}
@@ -125,7 +130,6 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
                 </FormItem>
               )}
             />
-
             {/* first name and last name field */}
             <div className='flex items-center justify-between gap-5'>
               <FormField
@@ -153,7 +157,6 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
                 )}
               />
             </div>
-
             {/* email field */}
             <FormField
               control={form.control}
@@ -167,7 +170,6 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
                 </FormItem>
               )}
             />
-
             {/* address field */}
             <FormField
               control={form.control}
@@ -181,7 +183,6 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
                 </FormItem>
               )}
             />
-
             {/* barangay field */}
             <FormField
               control={form.control}
@@ -195,7 +196,6 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
                 </FormItem>
               )}
             />
-
             {/* postal code and city field */}
             <div className='flex items-center justify-between gap-5'>
               <FormField
@@ -223,7 +223,6 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
                 )}
               />
             </div>
-
             {/* phone field */}
             <FormField
               control={form.control}
@@ -238,17 +237,12 @@ export default function CheckOutForm({productFromBuyNow, paramsId} : CheckOutFor
               )}
             />
           </div>
-          
           {/* shipping method */}
           <div className='mt-10'>
             <ShippingMethod />
           </div>
-
           {/* payment method */}
-          <div>
-
-          </div>
-
+          <div></div>
           <Button
             type='submit'
             className='w-full h-14 bg-red-500 text-white hover:bg-red-600 mt-10'
