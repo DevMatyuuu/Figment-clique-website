@@ -13,7 +13,6 @@ import {
   Column,
   Section,
 } from '@react-email/components'
-import logo from '../../assets/logo.webp'
 import { Cart } from '@/types';
 
 interface ReceiptProps {
@@ -32,7 +31,7 @@ export default function Receipt({firstName, lastName, address, orderId, cart, to
     <Html>
       <Head />
       <Tailwind>
-        <Body className='bg-black/80 text-black px-2 lg:px-0 my-10'>
+        <Body className='bg-black/80 text-black px-2 my-10'>
           <Container className='bg-white px-5'>
             <Section>
               <Row>
@@ -47,7 +46,7 @@ export default function Receipt({firstName, lastName, address, orderId, cart, to
             <Hr />
             <Section>
               <Heading className='uppercase font-extrabold text-3xl w-full text-start'>Thank you for shopping at Figment clique</Heading>
-              <Row className='text-sm lg:text-base'>
+              <Row className='text-sm'>
                 <Column align='left'>
                   <Row>
                     <Column align='left' className='flex gap-2'>

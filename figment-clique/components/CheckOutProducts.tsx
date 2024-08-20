@@ -9,7 +9,7 @@ export default function CheckOutProducts() {
   const { cart, total} = useCartStore();
 
   return (
-    <div className='flex flex-col gap-5 w-full pt-10 h-auto'>
+    <div className='flex flex-col gap-5 w-full lg:pt-10 h-auto'>
       {cart.map((item) => (
         <div className='flex w-full justify-between items-center'>
             <div className='flex justify-between relative w-full'>
