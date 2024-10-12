@@ -47,15 +47,15 @@ const CartItems = ({item} : cartItems) => {
         <div  className='flex justify-between w-[60%] px-5'>
           <div className='flex flex-col'>
             <h2 className='text-white mb-2 text-sm lg:text-base w-[80%]'>{item.title}</h2>
-            <h2 className='text-white/80 lg:mb-2 mb-1 text-sm lg:text-base'>Price: ₱{item.price}</h2>
-            <h2 className='text-white/80 lg:mb-6 mb-4 text-sm lg:text-base'>Size: {item.size}</h2>
+            <h2 className='text-white/80 lg:mb-2 mb-1 text-sm lg:text-base xl:text-sm'>Price: ₱{item.price}</h2>
+            <h2 className='text-white/80 lg:mb-6 mb-4 text-sm lg:text-base xl:text-sm'>Size: {item.size}</h2>
             <div className='flex items-center gap-5'>
               <div className='flex lg:h-10 h-10 w-24 lg:w-28 items-center justify-around bg-black text-white border border-white rounded-lg'>
                 <FiMinus onClick={() => handleDecrement()} className='cursor-pointer text-white/70 hover:text-white duration-200'/>
                 <span className='text-xs'>{itemQty}</span>
                 <FiPlus onClick={() => handleIncrement()} className='cursor-pointer text-white/70 hover:text-white duration-200'/>
               </div>
-              <FiTrash2 onClick={() => removeFromCart(item.id)} className='text-white size-5 cursor-pointer'/>
+              <FiTrash2 onClick={() => removeFromCart(item.id)} className='text-white size-5 cursor-pointer hover:text-red-700'/>
             </div>
           </div>
           <div>

@@ -167,7 +167,7 @@ const ProductDetails = ({paramsTitle, stocks, catalog} : params) => {
       </div>
       <div className='flex flex-col lg:gap-20 gap-10 mt-16'>
           <span className='text-white text-4xl text-center lg:text-start'>Related Products</span>
-          <RelatedProducts decodedParams={decodedParams} catalogItemData={catalogItemData}/>
+          <RelatedProducts decodedParams={decodedParams} catalogItemData={catalogItemData} catalog={catalog} />
       </div>
     </div>
   )

@@ -6,23 +6,17 @@ import 'swiper/css';
 import { Pagination } from 'swiper/modules'
 import { Swiper, SwiperSlide } from 'swiper/react'
 import 'swiper/css/pagination';
-import { useQuery } from '@tanstack/react-query';
 import { getCatalog } from '@/app/api/getCatalog';
 
 interface relatedProductProps {
   decodedParams: string
   catalogItemData: catalog | undefined
+  catalog: Array<catalog> | undefined
 }
 
-const RelatedProducts = ({decodedParams, catalogItemData}: relatedProductProps) => {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ['catalog'],
-    queryFn: getCatalog,
-    refetchOnMount: false,
-    refetchOnReconnect: false
-  })
+const RelatedProducts = ({decodedParams, catalogItemData, catalog}: relatedProductProps) => {
 
-  const relatedProducts = data?.catalog?.filter(item => item.category === catalogItemData?.category )
+  const relatedProducts = catalog?.filter(item => item.category === catalogItemData?.category )
                                .filter(item => item.title !== decodedParams)
   
   const shuffledRelatedProducts = relatedProducts?.map(value => ({ value, sort: Math.random()}))

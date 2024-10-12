@@ -28,7 +28,7 @@ const Cart = () => {
 
   return (
     <div className={`${isCartOpen ? 'z-50 opacity-1' : '-z-10 opacity-0'} w-full bg-black/50 h-full fixed top-0 duration-500 transition-all`}>
-      <aside className={`${isCartOpen ? 'right-0' : 'right-[-2000px]'} fixed top-0 h-full lg:w-[25%] lg:border-l lg:border-l-white/15 w-[100%] z-50 bg-black transition-all duration-300 ease-in-out`}>
+      <aside className={`${isCartOpen ? 'right-0' : 'right-[-2000px]'} fixed top-0 h-full lg:w-[25%] xl:w-[30%] lg:border-l lg:border-l-white/15 w-[100%] z-50 bg-black transition-all duration-300 ease-in-out`}>
         <div className='flex justify-between items-center gap-10 py-8 px-10'>
           <span className='text-white text-3xl'>Cart</span>
           <div onClick={setCartClose} className='text-white cursor-pointer'>
@@ -41,7 +41,7 @@ const Cart = () => {
         {cart.length >= 1 
         ? 
         <div className='flex flex-col w-full mt-5 h-full'>
-          <div className='w-full h-[600px] flex flex-col gap-10 overflow-y-auto pb-20'>
+          <div className='w-full min-h-[600px] h-[600px] flex flex-col gap-10 overflow-y-auto pb-40'>
             {cart.map((item, index) => (
               <CartItems key={index} item={item} />
             ))}
