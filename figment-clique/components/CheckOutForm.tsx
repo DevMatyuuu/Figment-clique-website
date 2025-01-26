@@ -28,9 +28,9 @@ import countryList from 'react-select-country-list';
 import { catalog } from '@prisma/client';
 import { useSearchParams } from 'next/navigation';
 import { createBuyNowOrderAction } from '@/actions/createBuyNowOrderAction';
-import ShippingMethod from './ShippingMethod';
 import { SendEmailAction } from '@/actions/SendEmailAction';
 import ShortUniqueId from 'short-unique-id';
+import PaymentMethod from './PaymentMethod';
 
 const uid = new ShortUniqueId({ length: 10 });
 
@@ -67,6 +67,7 @@ export default function CheckOutForm({ productFromBuyNow, paramsId }: CheckOutFo
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: defaultValues,
+    mode: "onChange"
   });
 
 
@@ -98,10 +99,10 @@ export default function CheckOutForm({ productFromBuyNow, paramsId }: CheckOutFo
   }
 
   return (
-    <div className='h-auto w-full pt-10 pb-40'>
+    <div className='h-auto w-full pt-10 lg:pb-40'>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
-          <h1 className='text-4xl mb-10'>Delivery</h1>
+          <h1 className='text-4xl mb-10 font-bold'>Delivery</h1>
           <div className='flex flex-col gap-5'>
             {/* country select */}
             <FormField
@@ -239,13 +240,14 @@ export default function CheckOutForm({ productFromBuyNow, paramsId }: CheckOutFo
           </div>
           {/* shipping method */}
           <div className='mt-10'>
-            <ShippingMethod />
+            <PaymentMethod />
           </div>
           {/* payment method */}
           <div></div>
           <Button
             type='submit'
             className='w-full h-14 bg-red-500 text-white hover:bg-red-600 mt-10'
+            disabled={!form.formState.isValid}
           >
             Complete Order
           </Button>
