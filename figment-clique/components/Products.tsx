@@ -10,12 +10,14 @@ import { getCatalog } from '@/app/api/getCatalog';
 import CatalogPaginationControls from './CatalogPaginationControls';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import useCartStore from '@/store/CartStore';
 
 interface productsProps {
   stocks: Array<stocks> | undefined
 }
 
 const Products = ({stocks}: productsProps) => {
+  const { setSelectedSize } = useCartStore()
 
   const { data, error, isLoading } = useQuery({
     queryKey: ['catalog'],
@@ -54,7 +56,7 @@ const Products = ({stocks}: productsProps) => {
               stockEntry?.xxl as number === 0
 
         return (
-          <Link href={`/catalog/${item.title}`} prefetch={true} key={item.id} data-aos="fade-zoom-in" data-aos-once="true" data-aos-easing="ease-in-back" data-aos-duration={duration} className={`${item.image ? 'flex ' : 'hidden'} relative h-max flex-col w-full justify-center items-center bg-white  text-black rounded-xl group cursor-pointer pb-4`}>
+          <Link href={`/catalog/${item.title}`} onClick={() => setSelectedSize('')} prefetch={true} key={item.id} data-aos="fade-zoom-in" data-aos-once="true" data-aos-easing="ease-in-back" data-aos-duration={duration} className={`${item.image ? 'flex ' : 'hidden'} relative h-max flex-col w-full justify-center items-center bg-white  text-black rounded-xl group cursor-pointer pb-4`}>
             <CldImage src={item.image} alt={item.title} width="200" height='200' className="rounded-xl lg:w-[250px] py-10 lg:h-[300px] h-[220px] object-cover group-hover:scale-105 duration-500 cursor-pointer" />
             <h1 className="text-xs text-center lg:text-base z-40 group-hover:underline underline-offset-2 underline-black mb-3">
               {item.title}
