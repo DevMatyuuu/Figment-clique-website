@@ -42,13 +42,13 @@ const CartItems = ({item} : cartItems) => {
     <div className='flex flex-col w-full h-auto'>
       <div className='w-full flex px-5 rounded-xl gap-5 justify-center items-center'>
         <div className='flex flex-col items-center w-max h-max'>
-          <CldImage src={item.image as string} alt={item.title} width={150} height={150} className='lg:h-36 h-48 lg:w-32 w-36'/>
+          <CldImage src={item.image as string} alt={item.title} width={150} height={150} className='lg:h-36 h-40 lg:w-32 w-40'/>
         </div>
         <div  className='flex justify-between w-[60%] px-5'>
           <div className='flex flex-col'>
-            <h2 className='text-white mb-2 text-sm lg:text-base w-[80%]'>{item.title}</h2>
-            <h2 className='text-white/80 lg:mb-2 mb-1 text-sm lg:text-base xl:text-sm'>Price: ₱{item.price}</h2>
-            <h2 className='text-white/80 lg:mb-6 mb-4 text-sm lg:text-base xl:text-sm'>Size: {item.size}</h2>
+            <h2 className='text-white mb-2 text-xs lg:text-base w-[80%]'>{item.title}</h2>
+            <h2 className='text-white/80 lg:mb-2 mb-1 text-xs lg:text-base xl:text-sm'>Price: ₱{item.price}</h2>
+            <h2 className='text-white/80 lg:mb-6 mb-4 text-xs lg:text-base xl:text-sm'>Size: {item.size}</h2>
             <div className='flex items-center gap-5'>
               <div className='flex lg:h-10 h-10 w-24 lg:w-28 items-center justify-around bg-black text-white border border-white rounded-lg'>
                 <FiMinus onClick={() => handleDecrement()} className='cursor-pointer text-white/70 hover:text-white duration-200'/>
