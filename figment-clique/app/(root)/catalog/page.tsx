@@ -23,8 +23,8 @@ export default async function Catalog() {
   const { stocks } = await getStocks();
 
   return (
-    <div className='flex flex-col container mx-auto h-full max-w-[1070px] lg:pt-14 px-5 py-10 gap-10'>
-      <h1 className="text-white text-5xl font-bold">Catalog</h1>
+    <div className='flex flex-col container mx-auto h-full max-w-[1070px] lg:pt-14 px-5 py-10 gap-12'>
+      <h1 className="text-white text-5xl font-bold text-center lg:text-start">Catalog</h1>
       <div className="flex flex-col lg:gap-16 gap-10">
         <HydrationBoundary state={dehydrate(queryClient)}>
           <Suspense fallback={<div>Loading...</div>}>

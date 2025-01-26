@@ -11,8 +11,8 @@ export const menu = [
     },
     {
         id: 3,
-        title: 'Size Chart',
-        route: '/size-chart'
+        title: 'Size Guide',
+        route: '/size-guide'
     },
     {
         id: 4,
