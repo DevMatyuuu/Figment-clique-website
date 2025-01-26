@@ -137,7 +137,7 @@ const ProductDetails = ({paramsTitle, stocks, catalog} : params) => {
           </button>
         </div>
         <div className='flex flex-col lg:w-[50%] w-full gap-10 mx-auto'>
-          <div className='lg:w-full w-[80%] lg:mx-0 mx-auto'>
+          <div className='lg:w-full w-full lg:w-[80%] lg:mx-0 mx-auto'>
             {catalogItemData?.image 
             ? 
             <CldImage src={selectedPreview ? selectedPreview : catalogItemData.image} alt={catalogItemData?.title as string} width={600} height={400} className='h-full w-full lg:w-full rounded-lg bg-white' />
