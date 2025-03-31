@@ -31,6 +31,7 @@ import { createBuyNowOrderAction } from '@/actions/createBuyNowOrderAction';
 import { SendEmailAction } from '@/actions/SendEmailAction';
 import ShortUniqueId from 'short-unique-id';
 import PaymentMethod from './PaymentMethod';
+import ShippingMethod from './ShippingMethod';
 
 const uid = new ShortUniqueId({ length: 10 });
 
@@ -240,10 +241,12 @@ export default function CheckOutForm({ productFromBuyNow, paramsId }: CheckOutFo
           </div>
           {/* shipping method */}
           <div className='mt-10'>
-            <PaymentMethod />
+            <ShippingMethod />
           </div>
           {/* payment method */}
-          <div></div>
+          <div className='mt-10'>
+            <PaymentMethod />
+          </div>
           <Button
             type='submit'
             className='w-full h-14 bg-red-500 text-white hover:bg-red-600 mt-10'
