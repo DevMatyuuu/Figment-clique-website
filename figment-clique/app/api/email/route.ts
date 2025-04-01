@@ -16,13 +16,13 @@ export async function POST(data: z.infer<typeof formSchema>, orderId: string, ca
     try {
       const data  = await resend.batch.send([
         {
-        from: 'email@figmentclique.store',
+        from: 'support@figmentclique.com',
         to: email,
         subject: 'FIGMENT CLIQUE RECEIPT',
         react: Receipt({firstName, lastName, address, orderId, cart, totalQty, total})
       },
       {
-        from: 'email@figmentclique.store',
+        from: 'support@figmentclique.com',
         to: 'matthewsantos120216@gmail.com',
         subject: 'FIGMENT CLIQUE RECEIPT',
         react: Receipt({firstName, lastName, address, orderId, cart, totalQty, total})
