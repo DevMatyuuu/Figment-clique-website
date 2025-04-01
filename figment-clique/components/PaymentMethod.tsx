@@ -5,31 +5,32 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from './
 import { paymentMethods } from '@/constants/payment-methods';
 
 export default function PaymentMethod() {
-
   const [openItem, setOpenItem] = useState<string | null>(null);
 
   const handleRadioChange = (value: string) => {
     setOpenItem(openItem === value ? null : value);
   };
 
+  console.log('Selected Payment Method:', openItem);
+
   return (
-    <>
-      <h2 className='text-2xl font-semibold'>Payment Method</h2>
-      <div className='mt-8'>
+    <div className="payment-method">
+      <h2 className="text-2xl font-semibold">Payment Method</h2>
+      <div className="mt-8">
         <Accordion type="single" value={openItem as string} collapsible>
           {paymentMethods.map((method, index) => (
             <AccordionItem key={index} value={`item-${index + 1}`}>
-              <AccordionTrigger className='flex items-center space-x-2'>
-                <div className="radio-button">
+              <AccordionTrigger className="flex items-center space-x-2">
+                <div className="payment-radio-button"> 
                   <input
                     name="radio-group"
-                    id={`radio${index + 1}`}
-                    className="radio-button__input"
+                    id={`payment-radio${index + 1}`}
+                    className="payment-radio-button__input" 
                     type="radio"
                     onChange={() => handleRadioChange(`item-${index + 1}`)}
                   />
-                  <label htmlFor={`radio${index + 1}`} className="radio-button__label">
-                    <span className="radio-button__custom"></span>
+                  <label htmlFor={`payment-radio${index + 1}`} className="payment-radio-button__label">
+                    <span className="payment-radio-button__custom"></span>
                     {method.label}
                   </label>
                 </div>
@@ -41,6 +42,7 @@ export default function PaymentMethod() {
           ))}
         </Accordion>
       </div>
-    </>
+    </div>
   );
 }
+

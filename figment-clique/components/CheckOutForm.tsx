@@ -41,8 +41,8 @@ type CountryOption = {
 };
 
 interface CheckOutFormProps {
-  productFromBuyNow: catalog | undefined
-  paramsId: string | undefined
+  productFromBuyNow?: catalog | undefined
+  paramsId?: string | undefined
 }
 
 export default function CheckOutForm({ productFromBuyNow, paramsId }: CheckOutFormProps) {

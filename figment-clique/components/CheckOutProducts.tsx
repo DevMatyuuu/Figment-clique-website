@@ -2,11 +2,19 @@
 
 import useCartStore from '@/store/CartStore';
 import { CldImage } from 'next-cloudinary';
+import { useSearchParams } from 'next/navigation';
 import React from 'react'
 
 
 export default function CheckOutProducts() {
   const { cart, total} = useCartStore();
+  const searchParams = useSearchParams();
+
+  const shippingFee = searchParams.get('shipping')
+
+  const finalTotal = Number(total) + Number(shippingFee)
+
+  const vat = finalTotal * 0.12;
 
   return (
     <div className='flex flex-col gap-5 w-full lg:pt-10 py-20 h-auto'>
@@ -27,14 +35,21 @@ export default function CheckOutProducts() {
             </div>
         </div>
       ))}
-        <div className='flex flex-col gap-5 mt-5'>
+      <div className='flex flex-col gap-5 mt-5'>
           <div className='flex w-full justify-between text-sm'>
             <span>Subtotal:</span>
             <span>₱{total}.00</span>
           </div>
-          <div className='flex w-full justify-between items-center'>
-            <span className='text-2xl'>Total:</span>
-            <span>₱{total}.00</span>
+          <div className='flex w-full justify-between text-sm'>
+            <span>Shipping Fee:</span>
+            <span>₱{shippingFee}.00</span>
+          </div>
+          <div className='flex w-full justify-between items-center mt-5'>
+            <div className='flex flex-col gap-2'>
+              <span className='text-2xl'>Total:</span>
+              <span className='text-gray-500 text-sm'>Including ₱{vat.toFixed(2)} in taxes</span>
+            </div>
+            <span>₱{finalTotal.toFixed(2)}</span>
           </div>
         </div>
       </div>
