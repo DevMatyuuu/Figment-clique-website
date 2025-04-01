@@ -1,7 +1,6 @@
 import { BuyNowData, CartOrderData } from "@/types";
 import { formSchema } from "@/validation/form-schema";
 import { PrismaClient } from "@prisma/client";
-import ShortUniqueId from "short-unique-id";
 import { z } from "zod";
 
 const prisma = new PrismaClient();
@@ -29,7 +28,8 @@ export async function createOrder(values: z.infer<typeof formSchema>, cart: Cart
         postal_code: values.postalCode,
         city: values.city,
         phone: values.phone,
-        products: productsData
+        products: productsData,
+        created_at: new Date(),
       },
     });
     return { order };
@@ -65,6 +65,7 @@ export async function createBuyNowOrder(values: z.infer<typeof formSchema>, prod
         products: [
           productsData
         ],
+        created_at: new Date(),
       },
     });
     return { order };

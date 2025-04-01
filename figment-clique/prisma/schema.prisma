@@ -42,6 +42,7 @@ model orders {
   city       String
   phone      String
   products   Json[] 
+  created_at DateTime   @default(now())
 }
 
 
